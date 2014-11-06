@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkyDrivingTrain", "SkyDrivingTrain\SkyDrivingTrain.csproj", "{58349C5B-F8AD-4EFC-ABA1-34295E63950F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{58349C5B-F8AD-4EFC-ABA1-34295E63950F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58349C5B-F8AD-4EFC-ABA1-34295E63950F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58349C5B-F8AD-4EFC-ABA1-34295E63950F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58349C5B-F8AD-4EFC-ABA1-34295E63950F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = SkyDrivingTrain\SkyDrivingTrain.csproj
+	EndGlobalSection
+EndGlobal
