@@ -19,6 +19,8 @@ namespace SkyDrivingTrain
 		private static Sprite playerChar;
 		private static BgmPlayer bgmP;
 		private static int speed;
+		private static int screenWidth;
+		private static int screenHeight;
 		
 		
 		public static void Main (string[] args)
@@ -37,9 +39,14 @@ namespace SkyDrivingTrain
 		{
 			//Initialise Variables
 			speed = 5;
+			screenWidth = 910;
+			screenHeight = 504;
+			
 			
 			// Set up the graphics system
 			graphics = new GraphicsContext();
+			
+			
 			
 			//Load in audio
 			Bgm bgm = new Bgm("/Application/assets/gameMusic.mp3");
@@ -67,6 +74,18 @@ namespace SkyDrivingTrain
 			// Query gamepad for current state
 			var gamePadData = GamePad.GetData (0);
 			
+			//Boundaries
+			if (playerChar.Position.X >= screenWidth)
+				playerChar.Position.X = screenWidth;
+			
+			if (playerChar.Position.X <= 10)
+				playerChar.Position.X = 10;
+			
+			if (playerChar.Position.Y <=10)
+				playerChar.Position.Y = 10;
+			
+			if (playerChar.Position.Y >= screenHeight)
+				playerChar.Position.Y = screenHeight;
 			
 			//Controls
 			if((gamePadData.Buttons & GamePadButtons.Left) != 0)
@@ -80,6 +99,7 @@ namespace SkyDrivingTrain
 			
 			if((gamePadData.Buttons & GamePadButtons.Down) !=0)
 				playerChar.Position.Y = playerChar.Position.Y +speed;
+			
 			
 		}
 
