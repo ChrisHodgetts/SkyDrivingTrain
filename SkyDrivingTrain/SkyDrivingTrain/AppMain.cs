@@ -18,6 +18,7 @@ namespace SkyDrivingTrain
 		private static Sprite background;
 		private static Sprite playerChar;
 		private static BgmPlayer bgmP;
+		private static int speed;
 		
 		
 		public static void Main (string[] args)
@@ -34,6 +35,9 @@ namespace SkyDrivingTrain
 
 		public static void Initialize()
 		{
+			//Initialise Variables
+			speed = 5;
+			
 			// Set up the graphics system
 			graphics = new GraphicsContext();
 			
@@ -66,16 +70,16 @@ namespace SkyDrivingTrain
 			
 			//Controls
 			if((gamePadData.Buttons & GamePadButtons.Left) != 0)
-				playerChar.Position.X = playerChar.Position.X -5;
+				playerChar.Position.X = playerChar.Position.X -speed;
 		
 			if((gamePadData.Buttons & GamePadButtons.Right) != 0)
-				playerChar.Position.X = playerChar.Position.X +5;
+				playerChar.Position.X = playerChar.Position.X +speed;
 			
 			if((gamePadData.Buttons & GamePadButtons.Up) !=0)
-				playerChar.Position.Y = playerChar.Position.Y -5;
+				playerChar.Position.Y = playerChar.Position.Y -speed;
 			
 			if((gamePadData.Buttons & GamePadButtons.Down) !=0)
-				playerChar.Position.Y = playerChar.Position.Y +5;
+				playerChar.Position.Y = playerChar.Position.Y +speed;
 			
 		}
 
