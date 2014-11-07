@@ -37,13 +37,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppMain.cs" />
+    <Compile Include="Sprite.cs" />
   </ItemGroup>
   <ItemGroup>
     <ShaderProgram Include="shaders\Simple.fcg" />
     <ShaderProgram Include="shaders\Simple.vcg" />
+    <ShaderProgram Include="shaders\Sprite.fcg" />
+    <ShaderProgram Include="shaders\Sprite.vcg" />
   </ItemGroup>
   <ItemGroup>
     <PsmMetadata Include="app.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Sce\Sce.Psm.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="assets\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="assets\background.png" />
+    <Content Include="assets\blueEnemy.png" />
+    <Content Include="assets\greenEnemy.png" />
+    <Content Include="assets\redEnemy.png" />
+    <Content Include="assets\spikedShip.PNG" />
+  </ItemGroup>
 </Project>
