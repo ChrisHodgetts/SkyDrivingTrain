@@ -5,6 +5,7 @@ using Sce.PlayStation.Core;
 using Sce.PlayStation.Core.Environment;
 using Sce.PlayStation.Core.Graphics;
 using Sce.PlayStation.Core.Input;
+using Sce.PlayStation.Core.Audio;
 
 
 namespace SkyDrivingTrain
@@ -16,6 +17,7 @@ namespace SkyDrivingTrain
 		private static Texture2D playerCharTexture;
 		private static Sprite background;
 		private static Sprite playerChar;
+		private static BgmPlayer bgmP;
 		
 		
 		public static void Main (string[] args)
@@ -34,6 +36,12 @@ namespace SkyDrivingTrain
 		{
 			// Set up the graphics system
 			graphics = new GraphicsContext();
+			
+			//Load in audio
+			Bgm bgm = new Bgm("/Application/assets/gameMusic.mp3");
+			bgmP = bgm.CreatePlayer();
+			bgmP.Loop = true;
+			bgmP.Play ();
 			
 			//Load in player character
 			playerCharTexture = new Texture2D("Application/assets/spikedShip.png", false);

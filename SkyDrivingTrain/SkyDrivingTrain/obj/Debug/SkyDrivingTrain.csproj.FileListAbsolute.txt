@@ -36,3 +36,7 @@ F:\Uni\Repos\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\obj\Debug\app.pdb
 F:\Uni\Repos\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\shaders\Sprite.cgx
 F:\Uni\Repos\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\shaders\Sprite.cgx
 F:\Uni\Repos\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\obj\Debug\shaders\shaders\Sprite.cgx
+F:\Uni\Repos\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\assets\gameMusic.mp3
+F:\Uni\Repos\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\assets\menu music.mp3
+F:\Uni\Repos\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\assets\gameMusic.mp3
+F:\Uni\Repos\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\assets\menu music.mp3

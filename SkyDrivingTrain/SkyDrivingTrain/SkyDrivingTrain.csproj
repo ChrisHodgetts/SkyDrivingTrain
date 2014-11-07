@@ -58,5 +58,7 @@
     <Content Include="assets\greenEnemy.png" />
     <Content Include="assets\redEnemy.png" />
     <Content Include="assets\spikedShip.PNG" />
+    <Content Include="assets\gameMusic.mp3" />
+    <Content Include="assets\menu music.mp3" />
   </ItemGroup>
 </Project>
