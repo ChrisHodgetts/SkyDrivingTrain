@@ -21,13 +21,13 @@ namespace SkyDrivingTrain
 		private static Texture2D playerCharTexture;
 		private static Texture2D followEnemyTexture;//Follow = red enemy
 		private static Texture2D randomEnemyTexture;//Random = green enemy
-		private static Texture2D perimeterEnemyTexture;//Perimter = blue enemy
+		private static Texture2D perimeterEnemyTexture;//Perimeter = blue enemy
 		
 		private static Sprite background;
 		private static Sprite playerChar;
 		private static Sprite followEnemy;
 		private static Sprite randomEnemy;
-		private static Sprite perimterEnemy;
+		private static Sprite perimeterEnemy;
 			
 		private static BgmPlayer bgmP;
 		private static int speed;
@@ -85,9 +85,9 @@ namespace SkyDrivingTrain
 			
 			//Load in blue 'random' enemy for testing
 			perimeterEnemyTexture = new Texture2D("/Application/assets/blueEnemy.png", false);
-			perimterEnemy = new Sprite(graphics, perimeterEnemyTexture);
-			perimterEnemy.Position.X = 180;
-			perimterEnemy.Position.Y = 177;
+			perimeterEnemy = new Sprite(graphics, perimeterEnemyTexture);
+			perimeterEnemy.Position.X = 180;
+			perimeterEnemy.Position.Y = 177;
 			
 			
 			//NOTE: Screen size for PSVITA = 960x544
@@ -144,7 +144,7 @@ namespace SkyDrivingTrain
 			playerChar.Render();
 			followEnemy.Render();
 			randomEnemy.Render();
-			perimterEnemy.Render();
+			perimeterEnemy.Render();
 
 			// Present the screen
 			graphics.SwapBuffers();
