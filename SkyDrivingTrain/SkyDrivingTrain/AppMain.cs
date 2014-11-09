@@ -12,11 +12,23 @@ namespace SkyDrivingTrain
 {
 	public class AppMain
 	{
+		/****CHRIS****
+		Do you prefer variables grouped by type, or by their associations?
+		I've currently gone with grouping them by variable type
+		*/
 		private static GraphicsContext graphics;
 		private static Texture2D backgroundTexture;
 		private static Texture2D playerCharTexture;
+		private static Texture2D followEnemyTexture;//Follow = red enemy
+		private static Texture2D randomEnemyTexture;//Random = green enemy
+		private static Texture2D perimeterEnemyTexture;//Perimter = blue enemy
+		
 		private static Sprite background;
 		private static Sprite playerChar;
+		private static Sprite followEnemy;
+		private static Sprite randomEnemy;
+		private static Sprite perimterEnemy;
+			
 		private static BgmPlayer bgmP;
 		private static int speed;
 		private static int screenWidth;
@@ -55,10 +67,28 @@ namespace SkyDrivingTrain
 			bgmP.Play ();
 			
 			//Load in player character
-			playerCharTexture = new Texture2D("Application/assets/spikedShip.png", false);
+			playerCharTexture = new Texture2D("/Application/assets/spikedShip.png", false);
 			playerChar = new Sprite(graphics, playerCharTexture);
 			playerChar.Position.X = 480;
 			playerChar.Position.Y = 277;
+			
+			//Load in red 'follow' enemy for testing
+			followEnemyTexture = new Texture2D("/Application/assets/redEnemy.png", false);
+			followEnemy = new Sprite(graphics, followEnemyTexture);
+			followEnemy.Position.X = 280;
+			followEnemy.Position.Y = 77;
+			
+			//Load in green 'random' enemy for testing
+			randomEnemyTexture = new Texture2D("/Application/assets/greenEnemy.png", false);
+			randomEnemy = new Sprite(graphics, randomEnemyTexture);
+			randomEnemy.Position.X = 380;
+			randomEnemy.Position.Y = 177;
+			
+			//Load in blue 'random' enemy for testing
+			perimeterEnemyTexture = new Texture2D("/Application/assets/blueEnemy.png", false);
+			perimterEnemy = new Sprite(graphics, perimeterEnemyTexture);
+			perimterEnemy.Position.X = 180;
+			perimterEnemy.Position.Y = 177;
 			
 			
 			//NOTE: Screen size for PSVITA = 960x544
@@ -81,7 +111,7 @@ namespace SkyDrivingTrain
 			if (playerChar.Position.X <= 10)
 				playerChar.Position.X = 10;
 			
-			if (playerChar.Position.Y <=10)
+			if (playerChar.Position.Y <= 10)
 				playerChar.Position.Y = 10;
 			
 			if (playerChar.Position.Y >= screenHeight)
@@ -111,7 +141,10 @@ namespace SkyDrivingTrain
 			
 			//All sprites must be rendered here
 			background.Render();
-			playerChar.Render ();
+			playerChar.Render();
+			followEnemy.Render();
+			randomEnemy.Render();
+			perimterEnemy.Render();
 
 			// Present the screen
 			graphics.SwapBuffers();
