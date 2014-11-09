@@ -54,7 +54,6 @@ namespace SkyDrivingTrain
 			screenWidth = 910;
 			screenHeight = 504;
 			
-			
 			// Set up the graphics system
 			graphics = new GraphicsContext();
 			
@@ -69,8 +68,8 @@ namespace SkyDrivingTrain
 			//Load in player character
 			playerCharTexture = new Texture2D("/Application/assets/spikedShip.png", false);
 			playerChar = new Sprite(graphics, playerCharTexture);
-			playerChar.Position.X = 480;
-			playerChar.Position.Y = 277;
+			playerChar.Position.X = 5;
+			playerChar.Position.Y = 5;
 			
 			//Load in red 'follow' enemy for testing
 			followEnemyTexture = new Texture2D("/Application/assets/redEnemy.png", false);
@@ -131,6 +130,7 @@ namespace SkyDrivingTrain
 				playerChar.Position.Y = playerChar.Position.Y +speed;
 			
 			
+			chasePlayer(followEnemy, playerChar);	
 		}
 
 		public static void Render()
@@ -148,6 +148,27 @@ namespace SkyDrivingTrain
 
 			// Present the screen
 			graphics.SwapBuffers();
+		}
+		
+		public static void chasePlayer(Sprite chaser, Sprite player)
+		{
+			//ALTERNATIVE CHASE "Algorithm"
+			if(player.Position.X < chaser.Position.X)
+			{
+				followEnemy.Position.X -= 1;
+			}
+			else if(player.Position.X > chaser.Position.X)
+			{
+				followEnemy.Position.X += 1;
+			}
+			if(player.Position.Y < chaser.Position.Y)
+			{
+				followEnemy.Position.Y -= 1;
+			}
+			else if(player.Position.Y > chaser.Position.Y)
+			{
+				followEnemy.Position.Y += 1;
+			}
 		}
 	}
 }
