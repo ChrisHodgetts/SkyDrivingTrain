@@ -82,3 +82,8 @@ F:\Users\Dan\Uni\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\obj\Debug\s
 F:\Users\Dan\Uni\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\obj\Debug\convertedpdb\app.exe.mdb
 F:\Users\Dan\Uni\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\obj\Debug\app.exe
 F:\Users\Dan\Uni\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\obj\Debug\app.pdb
+F:\Users\Dan\Uni\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\obj\Debug\SkyDrivingTrain.csprojResolveAssemblyReference.cache
+F:\Users\Dan\Uni\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\Sce.PlayStation.HighLevel.GameEngine2D.dll
+F:\Users\Dan\Uni\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\Sce.PlayStation.HighLevel.UI.dll
+F:\Users\Dan\Uni\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\Sce.PlayStation.HighLevel.GameEngine2D.dll
+F:\Users\Dan\Uni\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\Sce.PlayStation.HighLevel.UI.dll

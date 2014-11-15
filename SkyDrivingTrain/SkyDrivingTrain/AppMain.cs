@@ -7,168 +7,182 @@ using Sce.PlayStation.Core.Graphics;
 using Sce.PlayStation.Core.Input;
 using Sce.PlayStation.Core.Audio;
 
+using Sce.PlayStation.HighLevel.GameEngine2D;
+using Sce.PlayStation.HighLevel.GameEngine2D.Base;
+using Sce.PlayStation.HighLevel.UI;
 
+	
 namespace SkyDrivingTrain
 {
 	public class AppMain
 	{
-		/****CHRIS****
-		Do you prefer variables grouped by type, or by their associations?
-		I've currently gone with grouping them by variable type
-		*/
-		private static GraphicsContext graphics;
-		private static Texture2D backgroundTexture;
-		private static Texture2D playerCharTexture;
-		private static Texture2D followEnemyTexture;//Follow = red enemy
-		private static Texture2D randomEnemyTexture;//Random = green enemy
-		private static Texture2D perimeterEnemyTexture;//Perimeter = blue enemy
+		private static Sce.PlayStation.HighLevel.GameEngine2D.Scene 	gameScene;
+		private static Sce.PlayStation.HighLevel.UI.Scene 				uiScene;
 		
-		private static Sprite background;
-		private static Sprite playerChar;
-		private static Sprite followEnemy;
-		private static Sprite randomEnemy;
-		private static Sprite perimeterEnemy;
-			
-		private static BgmPlayer bgmP;
-		private static int speed;
-		private static int screenWidth;
-		private static int screenHeight;
+		private static SpriteUV playerSprite;
+		private static SpriteUV backgroundSprite;
+		private static SpriteUV followEnemySprite;
+		
+		private static TextureInfo playerTex;
+		private static TextureInfo backgroundTex;
+		private static TextureInfo followEnemyTex;
+
+		
+		private static float screenHeight;
+		private static float screenWidth;
+		private static int playerSpeed;
+		
 		
 		
 		public static void Main (string[] args)
 		{
 			Initialize();
-
-			while (true) 
+			
+			//Game loop
+			bool quitGame = false;
+			while (!quitGame) 
 			{
-				SystemEvents.CheckEvents();
 				Update ();
-				Render ();
+				
+				Director.Instance.Update();
+				Director.Instance.Render();
+				UISystem.Render();
+				
+				Director.Instance.GL.Context.SwapBuffers();
+				Director.Instance.PostSwap();
 			}
+			
+			//Clean up
+			Director.Terminate ();
 		}
 
-		public static void Initialize()
+		public static void Initialize ()
 		{
-			//Initialise Variables
-			speed = 5;
-			screenWidth = 910;
-			screenHeight = 504;
+			Director.Initialize ();
+			UISystem.Initialize(Director.Instance.GL.Context);
 			
-			// Set up the graphics system
-			graphics = new GraphicsContext();
+			//Set the ui scene.
+			uiScene = new Sce.PlayStation.HighLevel.UI.Scene();
+			Panel panel  = new Panel();
+			panel.Width  = Director.Instance.GL.Context.GetViewport().Width;
+			panel.Height = Director.Instance.GL.Context.GetViewport().Height;
 			
+			uiScene.RootWidget.AddChildLast(panel);
+			UISystem.SetScene(uiScene);
 			
+			//Set game scene
+			gameScene = new Sce.PlayStation.HighLevel.GameEngine2D.Scene();
+			gameScene.Camera.SetViewFromViewport();
 			
-			//Load in audio
-			Bgm bgm = new Bgm("/Application/assets/gameMusic.mp3");
-			bgmP = bgm.CreatePlayer();
-			bgmP.Loop = true;
-			bgmP.Play ();
+			//Set variables
+			screenHeight = Director.Instance.GL.Context.GetViewport().Height;
+			screenWidth = Director.Instance.GL.Context.GetViewport().Width;
 			
-			//Load in player character
-			playerCharTexture = new Texture2D("/Application/assets/spikedShip.png", false);
-			playerChar = new Sprite(graphics, playerCharTexture);
-			playerChar.Position.X = 5;
-			playerChar.Position.Y = 5;
+			playerSpeed = 5;
 			
-			//Load in red 'follow' enemy for testing
-			followEnemyTexture = new Texture2D("/Application/assets/redEnemy.png", false);
-			followEnemy = new Sprite(graphics, followEnemyTexture);
-			followEnemy.Position.X = 280;
-			followEnemy.Position.Y = 77;
+			//initialise player
+			playerTex = new TextureInfo("/Application/assets/spikedShip.png");
+			playerSprite = new SpriteUV(playerTex);
+			//set the sprites size, equal to it's texture
+			playerSprite.Quad.S = playerTex.TextureSizef;
+			playerSprite.Position = new Vector2(screenWidth * 0.5f, screenHeight * 0.5f);
+			//playerSprite.Scale = new Vector2(0.2f, 0.2f);
 			
-			//Load in green 'random' enemy for testing
-			randomEnemyTexture = new Texture2D("/Application/assets/greenEnemy.png", false);
-			randomEnemy = new Sprite(graphics, randomEnemyTexture);
-			randomEnemy.Position.X = 380;
-			randomEnemy.Position.Y = 177;
+			//initialize follow enemy(Red)
+			followEnemyTex = new TextureInfo("/Application/assets/redEnemy.png");
+			followEnemySprite = new SpriteUV(followEnemyTex);
+			followEnemySprite.Quad.S = followEnemyTex.TextureSizef;
+			followEnemySprite.Position = new Vector2(10.0f, screenHeight * 0.5f);
 			
-			//Load in blue 'random' enemy for testing
-			perimeterEnemyTexture = new Texture2D("/Application/assets/blueEnemy.png", false);
-			perimeterEnemy = new Sprite(graphics, perimeterEnemyTexture);
-			perimeterEnemy.Position.X = 180;
-			perimeterEnemy.Position.Y = 177;
+			//initialise background
+			backgroundTex = new TextureInfo("/Application/assets/background.png");
+			backgroundSprite = new SpriteUV(backgroundTex);
+			backgroundSprite.Quad.S = backgroundTex.TextureSizef;
 			
+			//Painters Algorithm
+			gameScene.AddChild(backgroundSprite);
+			gameScene.AddChild(followEnemySprite);
+			gameScene.AddChild(playerSprite);
 			
-			//NOTE: Screen size for PSVITA = 960x544
-			backgroundTexture = new Texture2D("/Application/assets/background.png", false);
-			background = new Sprite(graphics, backgroundTexture);
-			background.Position.X = 0;
-			background.Position.Y = 0;
-
+			//Run the scene.
+			Director.Instance.RunWithScene(gameScene, true);
 		}
-
+		
 		public static void Update()
+		{				
+			CheckBoundaries();
+			Input();
+			chasePlayer(followEnemySprite, playerSprite);
+		}
+		
+		public static void Input()
 		{
-			// Query gamepad for current state
-			var gamePadData = GamePad.GetData (0);
-			
-			//Boundaries
-			if (playerChar.Position.X >= screenWidth)
-				playerChar.Position.X = screenWidth;
-			
-			if (playerChar.Position.X <= 10)
-				playerChar.Position.X = 10;
-			
-			if (playerChar.Position.Y <= 10)
-				playerChar.Position.Y = 10;
-			
-			if (playerChar.Position.Y >= screenHeight)
-				playerChar.Position.Y = screenHeight;
+			var gamePadData = GamePad.GetData(0);
 			
 			//Controls
 			if((gamePadData.Buttons & GamePadButtons.Left) != 0)
-				playerChar.Position.X = playerChar.Position.X -speed;
+			{
+				playerSprite.Position = new Vector2(playerSprite.Position.X - playerSpeed, playerSprite.Position.Y);
+			}
 		
 			if((gamePadData.Buttons & GamePadButtons.Right) != 0)
-				playerChar.Position.X = playerChar.Position.X +speed;
+			{
+				playerSprite.Position = new Vector2(playerSprite.Position.X + playerSpeed, playerSprite.Position.Y);
+			}
 			
 			if((gamePadData.Buttons & GamePadButtons.Up) !=0)
-				playerChar.Position.Y = playerChar.Position.Y -speed;
+			{
+				playerSprite.Position = new Vector2(playerSprite.Position.X, playerSprite.Position.Y + playerSpeed);
+			}
 			
 			if((gamePadData.Buttons & GamePadButtons.Down) !=0)
-				playerChar.Position.Y = playerChar.Position.Y +speed;
-			
-			
-			chasePlayer(followEnemy, playerChar);	
-		}
-
-		public static void Render()
-		{
-			// Clear the screen
-			graphics.SetClearColor (0.0f, 0.0f, 0.0f, 0.0f);
-			graphics.Clear();
-			
-			//All sprites must be rendered here
-			background.Render();
-			playerChar.Render();
-			followEnemy.Render();
-			randomEnemy.Render();
-			perimeterEnemy.Render();
-
-			// Present the screen
-			graphics.SwapBuffers();
+			{
+				playerSprite.Position = new Vector2(playerSprite.Position.X, playerSprite.Position.Y - playerSpeed);
+			}
 		}
 		
-		public static void chasePlayer(Sprite chaser, Sprite player)
+		public static void CheckBoundaries()
+		{
+			//TO DO: FIX THE UPPER AND RIGHT HAND SIDE BOUNDARIES
+			if (playerSprite.Position.X >= screenWidth)
+			{
+				playerSprite.Position = new Vector2(screenWidth - 40.0f, playerSprite.Position.Y);
+			}
+			if (playerSprite.Position.X <= 10)
+			{
+				playerSprite.Position = new Vector2(10.0f, playerSprite.Position.Y);
+			}
+			if (playerSprite.Position.Y <= 10)
+			{
+				playerSprite.Position = new Vector2(playerSprite.Position.X, 10.0f);
+			}
+			if (playerSprite.Position.Y >= screenHeight)
+			{
+				playerSprite.Position = new Vector2(playerSprite.Position.X, screenHeight - 40.0f);
+			}
+		}
+		
+		public static void chasePlayer(SpriteUV chaser, SpriteUV player)
 		{
 			//ALTERNATIVE CHASE "Algorithm"
 			if(player.Position.X < chaser.Position.X)
 			{
-				followEnemy.Position.X -= 1;
+				chaser.Position = new Vector2(chaser.Position.X - 1.0f, chaser.Position.Y);
 			}
 			else if(player.Position.X > chaser.Position.X)
 			{
-				followEnemy.Position.X += 1;
+				chaser.Position = new Vector2(chaser.Position.X + 1.0f, chaser.Position.Y);
 			}
 			if(player.Position.Y < chaser.Position.Y)
 			{
-				followEnemy.Position.Y -= 1;
+				chaser.Position = new Vector2(chaser.Position.X, chaser.Position.Y - 1.0f);
 			}
 			else if(player.Position.Y > chaser.Position.Y)
 			{
-				followEnemy.Position.Y += 1;
+				chaser.Position = new Vector2(chaser.Position.X, chaser.Position.Y + 1.0f);
 			}
+			
 		}
+		
 	}
 }
