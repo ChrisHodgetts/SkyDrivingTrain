@@ -23,22 +23,26 @@ namespace SkyDrivingTrain
 		
 		private static SpriteUV playerSprite;
 		private static SpriteUV backgroundSprite;
-		private static SpriteUV followEnemySprite;
-		private static SpriteUV randomEnemySprite;
+		private static SpriteUV followEnemySprite; //R
+		private static SpriteUV randomEnemySprite; //G
+		private static SpriteUV perimEnemySprite; //B
 		
 		private static TextureInfo playerTex;
 		private static TextureInfo backgroundTex;
 		private static TextureInfo followEnemyTex;
 		private static TextureInfo randomEnemyTex;
+		private static TextureInfo perimEnemyTex;
 		
 		private static float screenHeight;
 		private static float screenWidth;
 		private static int playerSpeed;
 		private static int greenSpeed;
+		private static int blueSpeed;
+		private static int redSpeed;
 		private static int greenWallCollisionCount;
-		private static bool greenChangeDirection;
 		
-		private static Direction playerDirection;
+		private static bool bluePerimeterBroken;
+		
 		private static Direction randomEnemyDirection;
 		
 		private static Random random;
@@ -70,6 +74,7 @@ namespace SkyDrivingTrain
 		{
 			random = new Random();
 			
+			//Setup
 			Director.Initialize ();
 			UISystem.Initialize(Director.Instance.GL.Context);
 			
@@ -91,8 +96,11 @@ namespace SkyDrivingTrain
 			screenWidth = Director.Instance.GL.Context.GetViewport().Width;
 			
 			playerSpeed = 5;
-			greenSpeed = 3;
+			greenSpeed = 2;
+			redSpeed = 3;
+			blueSpeed = 2;
 			greenWallCollisionCount = 0;
+			bluePerimeterBroken = false;
 			
 			//initialise player
 			playerTex = new TextureInfo("/Application/assets/spikedShip.png");
@@ -112,8 +120,14 @@ namespace SkyDrivingTrain
 			randomEnemyTex = new TextureInfo("/Application/assets/greenEnemy.png");
 			randomEnemySprite = new SpriteUV(randomEnemyTex);
 			randomEnemySprite.Quad.S = randomEnemyTex.TextureSizef;
-			randomEnemySprite.Position = new Vector2(40.0f, 50.0f);
+			randomEnemySprite.Position = new Vector2(500.0f, 50.0f);
 			randomEnemyDirection = Direction.Right;
+			
+			//initialise perimeter enemy(blue)
+			perimEnemyTex = new TextureInfo("/Application/assets/blueEnemy.png");
+			perimEnemySprite = new SpriteUV(perimEnemyTex);
+			perimEnemySprite.Quad.S = perimEnemyTex.TextureSizef;
+			perimEnemySprite.Position = new Vector2(200.0f, 400.0f);
 			
 			//initialise background
 			backgroundTex = new TextureInfo("/Application/assets/background.png");
@@ -124,6 +138,7 @@ namespace SkyDrivingTrain
 			gameScene.AddChild(backgroundSprite);
 			gameScene.AddChild(followEnemySprite);
 			gameScene.AddChild(randomEnemySprite);
+			gameScene.AddChild(perimEnemySprite);
 			gameScene.AddChild(playerSprite);
 			
 			//Run the scene.
@@ -133,10 +148,20 @@ namespace SkyDrivingTrain
 		public static void Update()
 		{				
 			CheckBoundaries();
+			
 			Input();
-			chasePlayer(followEnemySprite, playerSprite);
+			
+			chasePlayer(followEnemySprite, redSpeed, playerSprite);
+			
 			randomGreenMove();
 			
+			calculateBlueDistance();
+			
+			if(bluePerimeterBroken)
+			{
+				chasePlayer(perimEnemySprite, blueSpeed, playerSprite);
+			}
+						
 			/*switch(playerDirection)
 			{
 				case Direction.Up:
@@ -237,26 +262,25 @@ namespace SkyDrivingTrain
 			}
 		}
 		
-		public static void chasePlayer(SpriteUV chaser, SpriteUV player)
+		public static void chasePlayer(SpriteUV chaser, int chaserSpeed, SpriteUV player)
 		{
 			//ALTERNATIVE CHASE "Algorithm"
 			if(player.Position.X < chaser.Position.X)
 			{
-				chaser.Position = new Vector2(chaser.Position.X - 1.0f, chaser.Position.Y);
+				chaser.Position = new Vector2(chaser.Position.X - chaserSpeed, chaser.Position.Y);
 			}
 			else if(player.Position.X > chaser.Position.X)
 			{
-				chaser.Position = new Vector2(chaser.Position.X + 1.0f, chaser.Position.Y);
+				chaser.Position = new Vector2(chaser.Position.X + chaserSpeed, chaser.Position.Y);
 			}
 			if(player.Position.Y < chaser.Position.Y)
 			{
-				chaser.Position = new Vector2(chaser.Position.X, chaser.Position.Y - 1.0f);
+				chaser.Position = new Vector2(chaser.Position.X, chaser.Position.Y - chaserSpeed);
 			}
 			else if(player.Position.Y > chaser.Position.Y)
 			{
-				chaser.Position = new Vector2(chaser.Position.X, chaser.Position.Y + 1.0f);
+				chaser.Position = new Vector2(chaser.Position.X, chaser.Position.Y + chaserSpeed);
 			}
-			
 		}
 		
 		public static void randomGreenMove()
@@ -294,7 +318,7 @@ namespace SkyDrivingTrain
 			
 			//changing greens direction
 			
-			if(greenWallCollisionCount > 3)
+			if(greenWallCollisionCount > 1)
 			{
 				if((randomEnemySprite.Position.X > xRand) && (randomEnemySprite.Position.Y > yRand))
 				{
@@ -319,14 +343,36 @@ namespace SkyDrivingTrain
 						greenWallCollisionCount = 0;
 					}
 				}
-				
-				
-				
-				
+			}
+		}
+		
+		public static void calculateBlueDistance()
+		{
+			//define center point of blues circle
+			float blueCenterX = perimEnemySprite.Position.X;
+			float blueCenterY = perimEnemySprite.Position.Y;
+			
+			//define center point of players circle
+			float playerCenterX = playerSprite.Position.X;
+			float playerCenterY = playerSprite.Position.Y;
+			
+			//define radius of blues circle
+			float blueRadius = 35.0f;
+			//define radius of player circle
+			float playerRadius = 35.0f;
+			
+			float distanceX = playerCenterX - blueCenterX;
+			float distanceY = playerCenterY - blueCenterY;
+			
+			if(distanceX < (blueRadius + playerRadius) && distanceY < (blueRadius + playerRadius))
+			{
+				//collision between circle bounds has occured
+				bluePerimeterBroken = true;
 			}
 			
 			
 		}
+			
 		
 	}
 }
