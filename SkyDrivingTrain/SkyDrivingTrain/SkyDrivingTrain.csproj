@@ -41,6 +41,8 @@
     <Compile Include="AppMain.cs" />
     <Compile Include="Sprite.cs" />
     <Compile Include="RedEnemy.cs" />
+    <Compile Include="GreenEnemy.cs" />
+    <Compile Include="BlueEnemy.cs" />
   </ItemGroup>
   <ItemGroup>
     <ShaderProgram Include="shaders\Simple.fcg" />

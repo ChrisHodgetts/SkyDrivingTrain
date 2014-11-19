@@ -24,21 +24,21 @@ namespace SkyDrivingTrain
 		private static SpriteUV playerSprite;
 		private static SpriteUV backgroundSprite;
 		//private static SpriteUV followEnemySprite; //R
-		private static SpriteUV randomEnemySprite; //G
-		private static SpriteUV perimEnemySprite; //B
+		//private static SpriteUV randomEnemySprite; //G
+		//private static SpriteUV perimEnemySprite; //B
 		
 		private static TextureInfo playerTex;
 		private static TextureInfo backgroundTex;
 		//private static TextureInfo followEnemyTex;
-		private static TextureInfo randomEnemyTex;
-		private static TextureInfo perimEnemyTex;
+		//private static TextureInfo randomEnemyTex;
+		//private static TextureInfo perimEnemyTex;
 		
 		public static float screenHeight;
 		public static float screenWidth;
 		
 		private static int playerSpeed;
-		private static int greenSpeed;
-		private static int blueSpeed;
+		//private static int greenSpeed;
+		//private static int blueSpeed;
 		//private static int redSpeed;
 		private static int greenWallCollisionCount;
 		
@@ -46,12 +46,14 @@ namespace SkyDrivingTrain
 		private static bool blueRandomMove;
 		private static bool blueFollow;
 		
-		private static Direction randomEnemyDirection;
-		private static Direction perimEnemyDirection;
+		//private static Direction randomEnemyDirection;
+		//private static Direction perimEnemyDirection;
 		
 		private static Random random;
 		
 		private static RedEnemy redEnemy;
+		private static BlueEnemy blueEnemy;
+		private static GreenEnemy greenEnemy;
 		
 		
 		public static void Main (string[] args)
@@ -102,9 +104,9 @@ namespace SkyDrivingTrain
 			screenWidth = Director.Instance.GL.Context.GetViewport().Width;
 			
 			playerSpeed = 5;
-			greenSpeed = 2;
+			//greenSpeed = 2;
 			//redSpeed = 3;
-			blueSpeed = 2;
+			//blueSpeed = 2;
 			greenWallCollisionCount = 0;
 			bluePerimeterBroken = false;
 			blueRandomMove = true;
@@ -118,16 +120,13 @@ namespace SkyDrivingTrain
 			playerSprite.Position = new Vector2(screenWidth * 0.5f, screenHeight * 0.5f);
 			//playerSprite.Scale = new Vector2(0.2f, 0.2f);
 			
-			//initialise follow enemy(Red)
-			//followEnemyTex = new TextureInfo("/Application/assets/enemy_R.png");
-			//followEnemySprite = new SpriteUV(followEnemyTex);
-			//followEnemySprite.Quad.S = followEnemyTex.TextureSizef;
-			//followEnemySprite.Position = new Vector2(10.0f, screenHeight * 0.5f);
-			redEnemy = new RedEnemy(gameScene, 3);
-			
+		
+			redEnemy = new RedEnemy(3);
+			blueEnemy = new BlueEnemy(2);
+			greenEnemy = new GreenEnemy(2);
 			
 			//initialise random enemy(green)
-			randomEnemyTex = new TextureInfo("/Application/assets/enemy_G.png");
+			/*randomEnemyTex = new TextureInfo("/Application/assets/enemy_G.png");
 			randomEnemySprite = new SpriteUV(randomEnemyTex);
 			randomEnemySprite.Quad.S = randomEnemyTex.TextureSizef;
 			randomEnemySprite.Position = new Vector2(500.0f, 50.0f);
@@ -138,7 +137,7 @@ namespace SkyDrivingTrain
 			perimEnemySprite = new SpriteUV(perimEnemyTex);
 			perimEnemySprite.Quad.S = perimEnemyTex.TextureSizef;
 			perimEnemySprite.Position = new Vector2(200.0f, 400.0f);
-			perimEnemyDirection = Direction.Right;
+			perimEnemyDirection = Direction.Right;*/
 			
 			//initialise background
 			backgroundTex = new TextureInfo("/Application/assets/background.png");
@@ -149,9 +148,9 @@ namespace SkyDrivingTrain
 			gameScene.AddChild(backgroundSprite);
 			
 			gameScene.AddChild(redEnemy.Sprite);
+			gameScene.AddChild(greenEnemy.Sprite);
+			gameScene.AddChild(blueEnemy.Sprite);
 			
-			gameScene.AddChild(randomEnemySprite);
-			gameScene.AddChild(perimEnemySprite);
 			gameScene.AddChild(playerSprite);
 			
 			//Run the scene.
@@ -168,41 +167,22 @@ namespace SkyDrivingTrain
 			ChasePlayer(redEnemy.Sprite, redEnemy.Speed, playerSprite);
 			
 			//Movement of green enemy
-			RandomMoveAlternateAxis(randomEnemySprite, randomEnemyDirection, greenSpeed);
+			RandomMoveAlternateAxis(greenEnemy);
 			
 			//movement of blue enemy
 			
-			BluePerimCheck(perimEnemySprite, playerSprite);
+			BluePerimCheck(blueEnemy, playerSprite);
 			
-			if(blueRandomMove)
+			if(blueEnemy.RandomMove)
 			{
 				//Movement for blue enemies before perimeter has been breached
-				RandomMove(perimEnemySprite, blueSpeed);
+				RandomMove(blueEnemy);
 			}
 			
-			if(bluePerimeterBroken)
+			if(blueEnemy.PerimeterBroken)
 			{
-				ChasePlayer(perimEnemySprite, blueSpeed, playerSprite);
+				ChasePlayer(blueEnemy.Sprite, blueEnemy.Speed, playerSprite);
 			}
-						
-			/*switch(playerDirection)
-			{
-				case Direction.Up:
-					playerSprite.Rotate(0.0f);
-					break;
-				
-				case Direction.Right:
-					playerSprite.Rotate(90.0f);
-					break;
-				
-				case Direction.Down:
-					playerSprite.Rotate(180.0f);
-					break;
-				
-				case Direction.Left:
-					playerSprite.Rotate(270.0f);
-					break;
-			}*/
 		}
 		
 		public static void Input()
@@ -214,25 +194,21 @@ namespace SkyDrivingTrain
 			if((gamePadData.Buttons & GamePadButtons.Left) != 0)
 			{
 				playerSprite.Position = new Vector2(playerSprite.Position.X - playerSpeed, playerSprite.Position.Y);
-				//playerDirection = Direction.Left;
 			}
 			//Move Right
 			if((gamePadData.Buttons & GamePadButtons.Right) != 0)
 			{
 				playerSprite.Position = new Vector2(playerSprite.Position.X + playerSpeed, playerSprite.Position.Y);
-				//playerDirection = Direction.Right;
 			}
 			//Move Up
 			if((gamePadData.Buttons & GamePadButtons.Up) != 0)
 			{
 				playerSprite.Position = new Vector2(playerSprite.Position.X, playerSprite.Position.Y + playerSpeed);
-				//playerDirection = Direction.Up;
 			}
 			//Move Down
 			if((gamePadData.Buttons & GamePadButtons.Down) != 0)
 			{
 				playerSprite.Position = new Vector2(playerSprite.Position.X, playerSprite.Position.Y - playerSpeed);
-				//playerDirection = Direction.Down;
 			}
 		}
 		
@@ -262,30 +238,30 @@ namespace SkyDrivingTrain
 		public static void CheckEnemyBoundaries()
 		{
 			//Green enemy basic direction reversal upon collision with viewport edge
-			if(randomEnemySprite.Position.X >= screenWidth)
+			if(greenEnemy.Sprite.Position.X >= screenWidth)
 			{
 				//once collides with right hand side, reverse it's direction.
-				randomEnemyDirection = Direction.Left;
-				greenWallCollisionCount++;
+				greenEnemy.Direction = Direction.Left;
+				greenEnemy.WallCollisionCount++;
 			}
 			
-			else if(randomEnemySprite.Position.X <= 10)
+			else if(greenEnemy.Sprite.Position.X <= 10)
 			{
 				//once collides with left hand side, reverse it's direction.
-				randomEnemyDirection = Direction.Right;
-				greenWallCollisionCount++;
+				greenEnemy.Direction  = Direction.Right;
+				greenEnemy.WallCollisionCount++;			
 			}
-			else if(randomEnemySprite.Position.Y >= screenHeight)
+			else if(greenEnemy.Sprite.Position.Y >= screenHeight)
 			{
 				//once collides with Top of screen, reverse it's direction.
-				randomEnemyDirection = Direction.Down;
-				greenWallCollisionCount++;
+				greenEnemy.Direction  = Direction.Down;
+				greenEnemy.WallCollisionCount++;			
 			}
-			else if(randomEnemySprite.Position.Y <= 10)
+			else if(greenEnemy.Sprite.Position.Y <= 10)
 			{
 				//once collides with bottom of screen, reverse it's direction.
-				randomEnemyDirection = Direction.Up;
-				greenWallCollisionCount++;
+				greenEnemy.Direction  = Direction.Up;
+				greenEnemy.WallCollisionCount++;			
 			}
 			
 		}
@@ -311,31 +287,31 @@ namespace SkyDrivingTrain
 			}
 		}
 		
-		public static void RandomMoveAlternateAxis(SpriteUV sprite, Direction direction, int speed)
+		public static void RandomMoveAlternateAxis(GreenEnemy enemy)
 		{
 			int randMin = 35;
 			int randXMax = (int)(screenWidth - 35.0f);
 			int randYMax = (int)(screenHeight - 35.0f);
 			
 			//Basic four directional movement
-			if(direction == Direction.Right)
+			if(enemy.Direction == Direction.Right)
 			{
-				sprite.Position = new Vector2(sprite.Position.X + speed, sprite.Position.Y);
+				enemy.Sprite.Position = new Vector2(enemy.Sprite.Position.X + enemy.Speed, enemy.Sprite.Position.Y);
 			}
 			
-			else if(direction == Direction.Left)
+			else if(enemy.Direction == Direction.Left)
 			{
-				sprite.Position = new Vector2(sprite.Position.X - speed, sprite.Position.Y);
+				enemy.Sprite.Position = new Vector2(enemy.Sprite.Position.X - enemy.Speed, enemy.Sprite.Position.Y);
 			}
 			
-			else if(direction == Direction.Up)
+			else if(enemy.Direction == Direction.Up)
 			{
-				sprite.Position = new Vector2(sprite.Position.X, sprite.Position.Y + speed);
+				enemy.Sprite.Position = new Vector2(enemy.Sprite.Position.X, enemy.Sprite.Position.Y + enemy.Speed);
 			}
 			
-			else if(direction == Direction.Down)
+			else if(enemy.Direction == Direction.Down)
 			{
-				sprite.Position = new Vector2(sprite.Position.X, sprite.Position.Y - speed);
+				enemy.Sprite.Position = new Vector2(enemy.Sprite.Position.X, enemy.Sprite.Position.Y - enemy.Speed);
 			}
 			
 			
@@ -346,60 +322,60 @@ namespace SkyDrivingTrain
 			
 			//changing greens direction
 			
-			if(greenWallCollisionCount > 1)
+			if(enemy.WallCollisionCount > 1)
 			{
-				if((sprite.Position.X > xRand) /*&& (sprite.Position.Y > yRand)*/)
+				if((enemy.Sprite.Position.X > xRand) /*&& (sprite.Position.Y > yRand)*/)
 				{
-					if(direction == Direction.Right)
+					if(enemy.Direction == Direction.Right)
 					{
-						direction = Direction.Down;
-						greenWallCollisionCount = 0;
+						enemy.Direction = Direction.Down;
+						enemy.WallCollisionCount = 0;
 					}
-					else if(direction == Direction.Left)
+					else if(enemy.Direction == Direction.Left)
 					{
-						direction = Direction.Up;
-						greenWallCollisionCount = 0;
+						enemy.Direction = Direction.Up;
+						enemy.WallCollisionCount = 0;
 					}
-					else if(direction == Direction.Down)
+					else if(enemy.Direction == Direction.Down)
 					{
-						direction = Direction.Right;
-						greenWallCollisionCount = 0;
+						enemy.Direction = Direction.Right;
+						enemy.WallCollisionCount = 0;
 					}
-					else if(direction == Direction.Up)
+					else if(enemy.Direction == Direction.Up)
 					{
-						direction = Direction.Left;
-						greenWallCollisionCount = 0;
+						enemy.Direction = Direction.Left;
+						enemy.WallCollisionCount = 0;
 					}
 				}
 			}
 		}
 		
-		public static void BluePerimCheck(SpriteUV Sprite1, SpriteUV Sprite2)
+		public static void BluePerimCheck(BlueEnemy enemy, SpriteUV player)
 		{
 			//define center point of blues circle
-			float sprite1CenterX = Sprite1.Position.X;
-			float sprite1CenterY = Sprite1.Position.Y;
+			float enemyCenterX = enemy.Sprite.Position.X;
+			float enemyCenterY = enemy.Sprite.Position.Y;
 			
 			//define center point of players circle
-			float sprite2CenterX = Sprite2.Position.X;
-			float sprite2CenterY = Sprite2.Position.Y;
+			float playerCenterX = player.Position.X;
+			float playerCenterY = player.Position.Y;
 			
 			//define radius of blues circle
-			float sprite1Radius = 35.0f;
+			float enemyRadius = 35.0f;
 			//define radius of player circle
-			float sprite2Radius = 35.0f;
+			float playerRadius = 35.0f;
 			
-			float distanceX = sprite2CenterX - sprite1CenterX;
-			float distanceY = sprite2CenterY - sprite1CenterY;
+			float distanceX = playerCenterX - enemyCenterX;
+			float distanceY = playerCenterY - enemyCenterY;
 			
-			if(distanceX < (sprite1Radius + sprite2Radius) && distanceY < (sprite1Radius + sprite2Radius))
+			if(distanceX < (enemyRadius + playerRadius) && distanceY < (enemyRadius + playerRadius))
 			{
 				//collision between circle bounds has occured
-				bluePerimeterBroken = true;
+				enemy.PerimeterBroken = true;
 			}
 		}
 		
-		public static void RandomMove(SpriteUV sprite, int speed)
+		public static void RandomMove(BlueEnemy enemy)
 		{
 			int direction = random.Next(1, 5);
 			
@@ -407,22 +383,22 @@ namespace SkyDrivingTrain
 			{
 				case 1:
 				//move up
-				sprite.Position = new Vector2(sprite.Position.X, sprite.Position.Y + speed);
+				enemy.Sprite.Position = new Vector2(enemy.Sprite.Position.X, enemy.Sprite.Position.Y + enemy.Speed);
 				break;
 				
 				case 2:
 				//move down
-				sprite.Position = new Vector2(sprite.Position.X, sprite.Position.Y - speed);
+				enemy.Sprite.Position = new Vector2(enemy.Sprite.Position.X, enemy.Sprite.Position.Y - enemy.Speed);
 				break;
 				
 				case 3:
 				//move left
-				sprite.Position = new Vector2(sprite.Position.X - speed, sprite.Position.Y);
+				enemy.Sprite.Position = new Vector2(enemy.Sprite.Position.X - enemy.Speed, enemy.Sprite.Position.Y);
 				break;
 				
 				case 4:
 				//move right
-				sprite.Position = new Vector2(sprite.Position.X + speed, sprite.Position.Y);
+				enemy.Sprite.Position = new Vector2(enemy.Sprite.Position.X + enemy.Speed, enemy.Sprite.Position.Y);
 				break;
 			}
 			

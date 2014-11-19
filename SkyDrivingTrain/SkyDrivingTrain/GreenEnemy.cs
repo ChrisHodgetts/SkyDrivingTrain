@@ -8,20 +8,25 @@ using Sce.PlayStation.HighLevel.GameEngine2D.Base;
 
 namespace SkyDrivingTrain
 {
-	public class RedEnemy
+	public class GreenEnemy
 	{
 		private SpriteUV sprite;
 		private TextureInfo texInfo;
 		private int speed;
+		private int wallCollisionCount;
+		private AppMain.Direction direction;
 		
-		public RedEnemy (int speed)
+
+		public GreenEnemy (int speed)
 		{
-			texInfo = new TextureInfo("/Application/assets/enemy_R.png");
+			texInfo = new TextureInfo("/Application/assets/enemy_G.png");
 			sprite = new SpriteUV(texInfo);			
 			sprite.Quad.S = texInfo.TextureSizef;
-			sprite.Position = new Vector2(10.0f, AppMain.screenHeight * 0.5f);
+			sprite.Position = new Vector2(500.0f, 50.0f);
 
 			this.speed = speed;
+			this.direction = AppMain.Direction.Right;
+			this.wallCollisionCount = 0;
 			
 			//scene.AddChild(sprite);
 		}
@@ -35,6 +40,18 @@ namespace SkyDrivingTrain
 		{
 			get{ return speed; }
 			set{ speed = value; }
+		}
+		
+		public AppMain.Direction Direction
+		{
+			get{ return direction; }
+			set{ direction = value; }	
+		}
+		
+		public int WallCollisionCount
+		{
+			get{ return wallCollisionCount; }
+			set{ wallCollisionCount = value; }
 		}
 		
 		public void Update()
