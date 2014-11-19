@@ -40,6 +40,7 @@
   <ItemGroup>
     <Compile Include="AppMain.cs" />
     <Compile Include="Sprite.cs" />
+    <Compile Include="RedEnemy.cs" />
   </ItemGroup>
   <ItemGroup>
     <ShaderProgram Include="shaders\Simple.fcg" />
@@ -62,5 +63,8 @@
     <Content Include="assets\spikedShip.PNG" />
     <Content Include="assets\gameMusic.mp3" />
     <Content Include="assets\menu music.mp3" />
+    <Content Include="assets\enemy_B.png" />
+    <Content Include="assets\enemy_G.png" />
+    <Content Include="assets\enemy_R.png" />
   </ItemGroup>
 </Project>
