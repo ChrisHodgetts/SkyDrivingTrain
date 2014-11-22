@@ -20,7 +20,7 @@ namespace SkyDrivingTrain
 		private bool follow;
 		
 		
-		public BlueEnemy (int speed)
+		public BlueEnemy(int speed)
 		{
 			texInfo = new TextureInfo("/Application/assets/enemy_B.png");
 			sprite = new SpriteUV(texInfo);			

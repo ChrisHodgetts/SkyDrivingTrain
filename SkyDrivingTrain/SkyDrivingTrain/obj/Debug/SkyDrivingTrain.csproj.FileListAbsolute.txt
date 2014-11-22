@@ -140,3 +140,7 @@ F:\Users\Dan\Uni\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\S
 F:\Users\Dan\Uni\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\assets\enemy_B.png
 F:\Users\Dan\Uni\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\assets\enemy_G.png
 F:\Users\Dan\Uni\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\assets\enemy_R.png
+F:\Users\Dan\Uni\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\assets\spikedShipSheet.png
+F:\Users\Dan\Uni\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\assets\spikedShipSheet.png
+F:\Users\Dan\Uni\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\assets\missileSheet.png
+F:\Users\Dan\Uni\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\assets\missileSheet.png

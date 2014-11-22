@@ -43,6 +43,8 @@
     <Compile Include="RedEnemy.cs" />
     <Compile Include="GreenEnemy.cs" />
     <Compile Include="BlueEnemy.cs" />
+    <Compile Include="Player.cs" />
+    <Compile Include="Projectile.cs" />
   </ItemGroup>
   <ItemGroup>
     <ShaderProgram Include="shaders\Simple.fcg" />
@@ -68,5 +70,7 @@
     <Content Include="assets\enemy_B.png" />
     <Content Include="assets\enemy_G.png" />
     <Content Include="assets\enemy_R.png" />
+    <Content Include="assets\spikedShipSheet.png" />
+    <Content Include="assets\missileSheet.png" />
   </ItemGroup>
 </Project>
