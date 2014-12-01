@@ -21,11 +21,11 @@ namespace SkyDrivingTrain
 		private static Sce.PlayStation.HighLevel.GameEngine2D.Scene 	gameScene;
 		private static Sce.PlayStation.HighLevel.UI.Scene 				uiScene;
 		
-		private static SpriteUV playerSprite;
+		private static SpriteUV testGateSprite;
 		private static SpriteUV backgroundSprite;
 	
-		private static TextureInfo playerTex;
 		private static TextureInfo backgroundTex;
+		private static TextureInfo testGateTex;
 		
 		public static float screenHeight;
 		public static float screenWidth;
@@ -38,9 +38,9 @@ namespace SkyDrivingTrain
 		
 		private static Player player;
 		
-		private static Projectile projectile;
+		//private static Projectile projectile;
 		
-		private static bool projectileLive;
+		private static List<Projectile> projectiles;
 				
 		public static void Main (string[] args)
 		{
@@ -94,14 +94,27 @@ namespace SkyDrivingTrain
 			redEnemy = new RedEnemy(3);
 			blueEnemy = new BlueEnemy(2);
 			greenEnemy = new GreenEnemy(2);
+			
+			projectiles = new List<Projectile>();
 						
 			//initialise background
 			backgroundTex = new TextureInfo("/Application/assets/background.png");
 			backgroundSprite = new SpriteUV(backgroundTex);
 			backgroundSprite.Quad.S = backgroundTex.TextureSizef;
 			
+			//initialise Gate
+			testGateTex = new TextureInfo("/Application/assets/placeHolderGate.png");
+			testGateSprite = new SpriteUV(testGateTex);
+			testGateSprite.Quad.S = testGateTex.TextureSizef;
+			testGateSprite.Scale = new Vector2(0.5f, 0.5f);
+			float randPosX = (float)random.Next(50, (int)screenWidth);
+			float randPosY = (float)random.Next(50, (int)screenHeight);
+			testGateSprite.Position = new Vector2(randPosX, randPosY);
+			
+			
 			//Renders each sprite to scene, using Painters Algorithm
 			gameScene.AddChild(backgroundSprite);
+			gameScene.AddChild(testGateSprite);
 			gameScene.AddChild(redEnemy.Sprite);
 			gameScene.AddChild(greenEnemy.Sprite);
 			gameScene.AddChild(blueEnemy.Sprite);
@@ -140,9 +153,17 @@ namespace SkyDrivingTrain
 			
 			player.Update();
 			
-			if(projectileLive)
+			foreach(Projectile p in projectiles)
 			{
-				projectile.Update();
+				if(p.Live)
+				{
+					p.Update();
+				}
+				
+				if(p.Position.X > screenWidth || p.Position.X < 0 || p.Position.Y > screenHeight || p.Position.Y < 0)
+				{
+					projectiles.Remove(p);
+				}
 			}
 		}
 		
@@ -177,12 +198,14 @@ namespace SkyDrivingTrain
 				player.Direction = Direction.Down;
 			}
 			
-			if((gamePadData.Buttons & GamePadButtons.Start) != 0)
+			if((gamePadData.ButtonsUp & GamePadButtons.Start) != 0)
 			{
-				//fire projectile when X keyboard key is pressed
-				projectileLive = true;
-				projectile = new Projectile(player.Sprite.Position, 3, player.Direction);
-				gameScene.AddChild(projectile.Sprite);			
+				Projectile p1 = new Projectile(player.Sprite.Position, 10, player.Direction);
+				p1.Live = true;
+				projectiles.Add(p1);
+
+				gameScene.AddChild(p1.Sprite);			
+				
 			}
 		}
 		

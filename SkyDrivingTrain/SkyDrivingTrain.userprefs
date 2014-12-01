@@ -2,8 +2,11 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="SkyDrivingTrain\AppMain.cs">
     <Files>
-      <File FileName="SkyDrivingTrain\AppMain.cs" Line="253" Column="4" />
+      <File FileName="SkyDrivingTrain\AppMain.cs" Line="165" Column="28" />
       <File FileName="SkyDrivingTrain\Sprite.cs" Line="63" Column="5" />
+      <File FileName="SkyDrivingTrain\Player.cs" Line="46" Column="37" />
+      <File FileName="SkyDrivingTrain\BlueEnemy.cs" Line="34" Column="23" />
+      <File FileName="SkyDrivingTrain\Projectile.cs" Line="22" Column="37" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

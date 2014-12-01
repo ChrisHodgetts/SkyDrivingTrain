@@ -15,8 +15,9 @@ namespace SkyDrivingTrain
 		private int speed;
 		private Vector2 position;
 		private AppMain.Direction direction;
+		private bool live;
 		
-		private int moveDirection;
+		//private int moveDirection;
 		
 		public Projectile(Vector2 position, int speed, AppMain.Direction direction)
 		{
@@ -25,8 +26,7 @@ namespace SkyDrivingTrain
 			sprite.Scale = new Vector2(40.0f, 40.0f);
 			sprite.UV.S = new Vector2(0.25f, 1.0f);
 			sprite.UV.T = new Vector2(0.0f, 0.0f);
-			
-			
+			this.live = false;
 			
 			this.speed = speed;
 			sprite.Position = position;
@@ -44,6 +44,12 @@ namespace SkyDrivingTrain
 		{
 			get{ return speed; }
 			set{ speed = value; }
+		}
+		
+		public bool Live
+		{
+			get{ return live; }
+			set{ live = value; }
 		}
 		
 		public Vector2 Position
@@ -95,6 +101,7 @@ namespace SkyDrivingTrain
 		public void Cleanup()
 		{
 			texInfo.Dispose();
+			
 		}
 		
 	}

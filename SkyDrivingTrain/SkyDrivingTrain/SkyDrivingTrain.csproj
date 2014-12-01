@@ -72,5 +72,6 @@
     <Content Include="assets\enemy_R.png" />
     <Content Include="assets\spikedShipSheet.png" />
     <Content Include="assets\missileSheet.png" />
+    <Content Include="assets\placeHolderGate.png" />
   </ItemGroup>
 </Project>
