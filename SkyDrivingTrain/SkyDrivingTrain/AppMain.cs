@@ -120,6 +120,7 @@ namespace SkyDrivingTrain
 			gameScene.AddChild(blueEnemy.Sprite);
 			gameScene.AddChild(player.Sprite);
 			
+			
 			//Run the scene.
 			Director.Instance.RunWithScene(gameScene, true);
 		}
@@ -164,6 +165,16 @@ namespace SkyDrivingTrain
 				{
 					projectiles.Remove(p);
 				}
+			}
+			
+			
+			
+			
+			//player - blue collisions
+			
+			if(player.HasCollidedWith(blueEnemy.Sprite))
+			{
+				gameScene.RemoveChild(player.Sprite, true);
 			}
 		}
 		
@@ -231,6 +242,7 @@ namespace SkyDrivingTrain
 			}
 			
 		}
+		
 		
 		public static void CheckEnemyBoundaries(GreenEnemy enemy)
 		{

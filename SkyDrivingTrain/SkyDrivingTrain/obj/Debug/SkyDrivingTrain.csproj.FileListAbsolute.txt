@@ -156,3 +156,20 @@ E:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyD
 E:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\assets\spikedShipSheet.png
 E:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\assets\missileSheet.png
 E:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\assets\placeHolderGate.png
+F:\Uni\Repos\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\Sce.PlayStation.HighLevel.GameEngine2D.dll
+F:\Uni\Repos\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\Sce.PlayStation.HighLevel.UI.dll
+F:\Uni\Repos\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\assets\enemy_B.png
+F:\Uni\Repos\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\assets\enemy_G.png
+F:\Uni\Repos\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\assets\enemy_R.png
+F:\Uni\Repos\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\assets\spikedShipSheet.png
+F:\Uni\Repos\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\assets\missileSheet.png
+F:\Uni\Repos\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\assets\placeHolderGate.png
+F:\Uni\Repos\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\Sce.PlayStation.HighLevel.GameEngine2D.dll
+F:\Uni\Repos\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\Sce.PlayStation.HighLevel.UI.dll
+F:\Uni\Repos\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\assets\enemy_B.png
+F:\Uni\Repos\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\assets\enemy_G.png
+F:\Uni\Repos\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\assets\enemy_R.png
+F:\Uni\Repos\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\assets\spikedShipSheet.png
+F:\Uni\Repos\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\assets\missileSheet.png
+F:\Uni\Repos\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\assets\placeHolderGate.png
+F:\Uni\Repos\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\obj\Debug\SkyDrivingTrain.csprojResolveAssemblyReference.cache

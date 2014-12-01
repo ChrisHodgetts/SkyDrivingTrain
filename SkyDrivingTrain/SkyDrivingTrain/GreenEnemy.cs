@@ -13,6 +13,8 @@ namespace SkyDrivingTrain
 		private SpriteUV sprite;
 		private TextureInfo texInfo;
 		private int speed;
+		private Bounds2 bounds;
+		private Vector2 center;
 		private int wallCollisionCount;
 		private AppMain.Direction direction;
 		
@@ -23,7 +25,9 @@ namespace SkyDrivingTrain
 			sprite = new SpriteUV(texInfo);			
 			sprite.Quad.S = texInfo.TextureSizef;
 			sprite.Position = new Vector2(500.0f, 50.0f);
-
+			bounds = new Bounds2();
+			sprite.GetlContentLocalBounds(ref bounds);
+			//center = node.LocalToWorld(bounds.Center);
 			this.speed = speed;
 			this.direction = AppMain.Direction.Right;
 			this.wallCollisionCount = 0;
@@ -40,6 +44,11 @@ namespace SkyDrivingTrain
 		{
 			get{ return speed; }
 			set{ speed = value; }
+		}
+		
+		public Bounds2 Bounds
+		{
+			get { return bounds; }
 		}
 		
 		public AppMain.Direction Direction

@@ -14,7 +14,10 @@ namespace SkyDrivingTrain
 		private TextureInfo texInfo;
 		private int speed;
 		
+		private Bounds2 bounds;
+		private Vector2 center;
 		private AppMain.Direction direction;
+		
 		
 		public Player(int speed)
 		{
@@ -33,6 +36,15 @@ namespace SkyDrivingTrain
 			this.speed = speed;
 			
 			this.direction = AppMain.Direction.Up;
+			
+			//bounds = new Bounds2();
+			//sprite.GetlContentLocalBounds(ref bounds);
+			
+			//bounds.Scale(new Vector2(0.001f, 0.001f), sprite.Position);
+			
+			
+			//center = node.LocalToWorld(bounds.Center);
+			
 
 			
 			//scene.AddChild(sprite);
@@ -49,6 +61,10 @@ namespace SkyDrivingTrain
 			set{ direction = value; }	
 		}
 		
+		public Bounds2 Bounds
+		{
+			get { return bounds; }
+		}
 		public int Speed
 		{
 			get{ return speed; }
@@ -82,6 +98,36 @@ namespace SkyDrivingTrain
 			}
 			
 			
+		}
+		
+		public bool HasCollidedWith(SpriteUV sprite)
+		{
+			float xObstacleBound = (sprite.Position.X + (sprite.TextureInfo.Texture.Width * sprite.Scale.X)) * 0.5f;
+			float yObstacleBound = (sprite.Position.Y + (sprite.TextureInfo.Texture.Height * sprite.Scale.Y)) * 0.32f;
+			
+			
+				float xBound = (this.Sprite.Position.X + (this.Sprite.TextureInfo.Texture.Width * this.Sprite.Scale.X)) * 0.5f;
+				float yBound = (this.Sprite.Position.Y + (this.Sprite.TextureInfo.Texture.Height * this.Sprite.Scale.Y)) * 0.32f;
+				
+				if(sprite.Position.X > this.Sprite.Position.X && sprite.Position.X < xBound)
+				{
+					if(sprite.Position.Y > this.Sprite.Position.Y && sprite.Position.Y < yBound)
+					{
+						return true;
+					}
+				}
+				
+				if(xObstacleBound > this.Sprite.Position.X && xObstacleBound < xBound)
+				{
+					if(yObstacleBound > this.Sprite.Position.Y && yObstacleBound < yBound)
+					{
+						return true;
+					}
+				}
+
+			
+			
+			return false;
 		}
 		
 		public void Cleanup()
