@@ -29,7 +29,8 @@ namespace SkyDrivingTrain
 			sprite.UV.S = new Vector2(0.25f, 1.0f);
 			//T = translate (starting point of image on spritesheet)
 			sprite.UV.T = new Vector2(0.0f, 0.0f);
-
+			
+			
 			//sprite.Quad.S = texInfo.TextureSizef;
 			sprite.Position = new Vector2(AppMain.screenWidth * 0.5f, AppMain.screenHeight * 0.5f);
 
@@ -116,7 +117,6 @@ namespace SkyDrivingTrain
 						return true;
 					}
 				}
-				
 				if(xObstacleBound > this.Sprite.Position.X && xObstacleBound < xBound)
 				{
 					if(yObstacleBound > this.Sprite.Position.Y && yObstacleBound < yBound)
@@ -124,8 +124,39 @@ namespace SkyDrivingTrain
 						return true;
 					}
 				}
-
+			return false;
+		}
+		
+		public bool CollidedWith(SpriteUV sprite)//BlueEnemy enemy, SpriteUV player)
+		{
+			//
+			///define center point of players circle
+			//
+			float playerCenterX = this.sprite.Position.X;
+			float playerCenterY = this.sprite.Position.Y;
+			//
+			///define center point of obstacles cirlce
+			//
+			float obstacleCenterX = sprite.Position.X;
+			float obstacleCenterY = sprite.Position.Y;
+	 		//
+			///define radius of players circle
+			//
+			float playerRadius = 3.0f;
+			//
+			///define radius of obstacles circle
+			//
+			float obstacleRadius = 4.0f;
 			
+			
+			float distanceX = playerCenterX - obstacleCenterX;
+			float distanceY = playerCenterY - obstacleCenterY;
+			
+			if(distanceX < (obstacleRadius + playerRadius) && distanceY < (obstacleRadius + playerRadius))
+			{
+				//collision between circle bounds has occured
+				return true;
+			}
 			
 			return false;
 		}

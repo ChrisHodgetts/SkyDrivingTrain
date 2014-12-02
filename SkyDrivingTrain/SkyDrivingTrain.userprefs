@@ -1,14 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="SkyDrivingTrain\Player.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="SkyDrivingTrain\AppMain.cs">
     <Files>
-      <File FileName="SkyDrivingTrain\AppMain.cs" Line="177" Column="46" />
+      <File FileName="SkyDrivingTrain\AppMain.cs" Line="77" Column="31" />
       <File FileName="SkyDrivingTrain\Sprite.cs" Line="63" Column="5" />
-      <File FileName="SkyDrivingTrain\Player.cs" Line="106" Column="108" />
-      <File FileName="SkyDrivingTrain\BlueEnemy.cs" Line="42" Column="41" />
+      <File FileName="SkyDrivingTrain\Player.cs" Line="74" Column="45" />
+      <File FileName="SkyDrivingTrain\BlueEnemy.cs" Line="24" Column="4" />
       <File FileName="SkyDrivingTrain\Projectile.cs" Line="22" Column="37" />
-      <File FileName="SkyDrivingTrain\GreenEnemy.cs" Line="30" Column="6" />
-      <File FileName="SkyDrivingTrain\RedEnemy.cs" Line="26" Column="6" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

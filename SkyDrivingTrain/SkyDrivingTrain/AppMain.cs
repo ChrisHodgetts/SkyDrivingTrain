@@ -172,7 +172,7 @@ namespace SkyDrivingTrain
 			
 			//player - blue collisions
 			
-			if(player.HasCollidedWith(blueEnemy.Sprite))
+			if(player.CollidedWith(blueEnemy.Sprite))
 			{
 				gameScene.RemoveChild(player.Sprite, true);
 			}
