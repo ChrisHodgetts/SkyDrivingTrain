@@ -142,17 +142,19 @@ namespace SkyDrivingTrain
 	 		//
 			///define radius of players circle
 			//
-			float playerRadius = 3.0f;
+			float playerRadius = 1.0f;
 			//
 			///define radius of obstacles circle
 			//
-			float obstacleRadius = 4.0f;
+			float obstacleRadius = 1.0f;
 			
 			
 			float distanceX = playerCenterX - obstacleCenterX;
 			float distanceY = playerCenterY - obstacleCenterY;
 			
-			if(distanceX < (obstacleRadius + playerRadius) && distanceY < (obstacleRadius + playerRadius))
+			float distance = FMath.Sqrt((distanceX * distanceX) + (distanceY * distanceY));
+			
+			if(distance < (obstacleRadius + playerRadius))
 			{
 				//collision between circle bounds has occured
 				return true;

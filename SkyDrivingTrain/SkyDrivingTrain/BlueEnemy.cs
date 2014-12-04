@@ -13,7 +13,6 @@ namespace SkyDrivingTrain
 		private SpriteUV sprite;
 		private TextureInfo texInfo;
 		private int speed;
-		private AppMain.Direction direction;
 		
 		private bool perimeterBroken;
 		private bool randomMove;
@@ -28,7 +27,6 @@ namespace SkyDrivingTrain
 			sprite.Position = new Vector2(200.0f, 400.0f);
 
 			this.speed = speed;
-			this.direction = AppMain.Direction.Right;
 			this.randomMove = true;
 			this.follow = false;
 			this.perimeterBroken = false;
@@ -46,12 +44,6 @@ namespace SkyDrivingTrain
 		{
 			get{ return speed; }
 			set{ speed = value; }
-		}
-		
-		public AppMain.Direction Direction
-		{
-			get{ return direction; }
-			set{ direction = value; }	
 		}
 		
 		public bool RandomMove

@@ -116,8 +116,8 @@ namespace SkyDrivingTrain
 			gameScene.AddChild(backgroundSprite);
 			gameScene.AddChild(testGateSprite);
 			gameScene.AddChild(redEnemy.Sprite);
-			gameScene.AddChild(greenEnemy.Sprite);
 			gameScene.AddChild(blueEnemy.Sprite);
+			gameScene.AddChild(greenEnemy.Sprite);
 			gameScene.AddChild(player.Sprite);
 			
 			
@@ -173,6 +173,16 @@ namespace SkyDrivingTrain
 			//player - blue collisions
 			
 			if(player.CollidedWith(blueEnemy.Sprite))
+			{
+				gameScene.RemoveChild(player.Sprite, true);
+			}
+			
+			if(player.CollidedWith(redEnemy.Sprite))
+			{
+				gameScene.RemoveChild(player.Sprite, true);
+			}
+			
+			if(player.CollidedWith(greenEnemy.Sprite))
 			{
 				gameScene.RemoveChild(player.Sprite, true);
 			}
@@ -370,13 +380,15 @@ namespace SkyDrivingTrain
 			float playerCenterY = player.Position.Y;
 			
 			//define radius of blues circle
-			float enemyRadius = 35.0f;
+			float enemyRadius = 15.0f;
 			//define radius of player circle
-			float playerRadius = 35.0f;
+			float playerRadius = 15.0f;
 			
 			float distanceX = playerCenterX - enemyCenterX;
 			float distanceY = playerCenterY - enemyCenterY;
 			
+			float distance = FMath.Sqrt((distanceX * distanceX) + (distanceY * distanceY));
+				
 			if(distanceX < (enemyRadius + playerRadius) && distanceY < (enemyRadius + playerRadius))
 			{
 				//collision between circle bounds has occured
