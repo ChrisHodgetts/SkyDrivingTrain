@@ -36,11 +36,16 @@ namespace SkyDrivingTrain
 		private static BlueEnemy blueEnemy;
 		private static GreenEnemy greenEnemy;
 		
+		private static List<RedEnemy> redEnemies;
+		
 		private static Player player;
 		
 		//private static Projectile projectile;
 		
 		private static List<Projectile> projectiles;
+		
+		private static int redTimeCount;
+		
 				
 		public static void Main (string[] args)
 		{
@@ -95,6 +100,10 @@ namespace SkyDrivingTrain
 			blueEnemy = new BlueEnemy(2);
 			greenEnemy = new GreenEnemy(2);
 			
+			redEnemies = new List<RedEnemy>();
+			redEnemies.Add(redEnemy);
+			redTimeCount = 0;
+			
 			projectiles = new List<Projectile>();
 						
 			//initialise background
@@ -132,7 +141,22 @@ namespace SkyDrivingTrain
 			
 			Input();
 			
-			ChasePlayer(redEnemy.Sprite, redEnemy.Speed, player.Sprite);
+			foreach(RedEnemy r in redEnemies)
+			{
+				ChasePlayer(r.Sprite, r.Speed, player.Sprite);
+			}
+			
+			redTimeCount++;
+			
+			if(redTimeCount >= 600)
+			{
+				redTimeCount = 0;
+				RedEnemy red = new RedEnemy(3);
+	
+				gameScene.AddChild(red.Sprite);
+				redEnemies.Add(red);
+			}
+			
 			
 			//Movement of green enemy
 			RandomMoveAlternateAxis(greenEnemy);
@@ -177,11 +201,13 @@ namespace SkyDrivingTrain
 				gameScene.RemoveChild(player.Sprite, true);
 			}
 			
-			if(player.CollidedWith(redEnemy.Sprite))
+			foreach(RedEnemy r in redEnemies)
 			{
-				gameScene.RemoveChild(player.Sprite, true);
+				if(player.CollidedWith(r.Sprite))
+				{
+					gameScene.RemoveChild(player.Sprite, true);
+				}
 			}
-			
 			if(player.CollidedWith(greenEnemy.Sprite))
 			{
 				gameScene.RemoveChild(player.Sprite, true);
