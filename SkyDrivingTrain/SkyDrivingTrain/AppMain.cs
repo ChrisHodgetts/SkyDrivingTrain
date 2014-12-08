@@ -21,11 +21,15 @@ namespace SkyDrivingTrain
 		private static Sce.PlayStation.HighLevel.GameEngine2D.Scene 	gameScene;
 		private static Sce.PlayStation.HighLevel.UI.Scene 				uiScene;
 		
-		private static SpriteUV testGateSprite;
+		//private static SpriteUV testGateSprite;
 		private static SpriteUV backgroundSprite;
+		
+		private static Gate testGate;
+		private static float randGatePosX;
+		private static float randGatePosY;
 	
 		private static TextureInfo backgroundTex;
-		private static TextureInfo testGateTex;
+		//private static TextureInfo testGateTex;
 		
 		public static float screenHeight;
 		public static float screenWidth;
@@ -39,12 +43,13 @@ namespace SkyDrivingTrain
 		private static List<RedEnemy> redEnemies;
 		
 		private static Player player;
-		
-		//private static Projectile projectile;
-		
+				
 		private static List<Projectile> projectiles;
+		private static List<Gate> gates;
 		
 		private static int redTimeCount;
+		
+		private static float redSpeed;
 		
 				
 		public static void Main (string[] args)
@@ -95,8 +100,9 @@ namespace SkyDrivingTrain
 			screenWidth = Director.Instance.GL.Context.GetViewport().Width;
 			
 			player = new Player(5);
-		
-			redEnemy = new RedEnemy(3);
+			redSpeed = 3.0f;
+			
+			redEnemy = new RedEnemy(redSpeed);
 			blueEnemy = new BlueEnemy(2);
 			greenEnemy = new GreenEnemy(2);
 			
@@ -112,21 +118,21 @@ namespace SkyDrivingTrain
 			backgroundSprite.Quad.S = backgroundTex.TextureSizef;
 			
 			//initialise Gate
-			testGateTex = new TextureInfo("/Application/assets/placeHolderGate.png");
-			testGateSprite = new SpriteUV(testGateTex);
-			testGateSprite.Quad.S = testGateTex.TextureSizef;
-			testGateSprite.Scale = new Vector2(0.5f, 0.5f);
-			float randPosX = (float)random.Next(50, (int)screenWidth);
-			float randPosY = (float)random.Next(50, (int)screenHeight);
-			testGateSprite.Position = new Vector2(randPosX, randPosY);
+			randGatePosX = (float)random.Next(50, (int)screenWidth);
+			randGatePosY = (float)random.Next(50, (int)screenHeight);
+			testGate = new Gate(new Vector2(randGatePosX, randGatePosY));
+			
+			gates = new List<Gate>();
+			gates.Add(testGate);
 			
 			
 			//Renders each sprite to scene, using Painters Algorithm
 			gameScene.AddChild(backgroundSprite);
-			gameScene.AddChild(testGateSprite);
+			gameScene.AddChild(testGate.Sprite);
+			gameScene.AddChild(greenEnemy.Sprite);
+
 			gameScene.AddChild(redEnemy.Sprite);
 			gameScene.AddChild(blueEnemy.Sprite);
-			gameScene.AddChild(greenEnemy.Sprite);
 			gameScene.AddChild(player.Sprite);
 			
 			
@@ -150,8 +156,9 @@ namespace SkyDrivingTrain
 			
 			if(redTimeCount >= 600)
 			{
+				redSpeed += 0.1f;
 				redTimeCount = 0;
-				RedEnemy red = new RedEnemy(3);
+				RedEnemy red = new RedEnemy(redSpeed);
 	
 				gameScene.AddChild(red.Sprite);
 				redEnemies.Add(red);
@@ -194,7 +201,7 @@ namespace SkyDrivingTrain
 			
 			
 			
-			//player - blue collisions
+			//player - enemy collisions
 			
 			if(player.CollidedWith(blueEnemy.Sprite))
 			{
@@ -203,6 +210,15 @@ namespace SkyDrivingTrain
 			
 			foreach(RedEnemy r in redEnemies)
 			{
+				/*foreach(RedEnemy re in redEnemies)
+				{
+					if(r.Sprite.Position.X - re.Sprite.Position.X <= 1.0f)
+					{
+						r.Sprite.Position = new Vector2(r.Sprite.Position.X + 1.0f, r.Sprite.Position.Y);
+						re.Sprite.Position = new Vector2(re.Sprite.Position.X - 1.0f, re.Sprite.Position.Y);
+
+					}
+				}*/
 				if(player.CollidedWith(r.Sprite))
 				{
 					gameScene.RemoveChild(player.Sprite, true);
@@ -211,6 +227,16 @@ namespace SkyDrivingTrain
 			if(player.CollidedWith(greenEnemy.Sprite))
 			{
 				gameScene.RemoveChild(player.Sprite, true);
+			}
+			
+			//player - gate collisions
+			
+			foreach(Gate g in gates)
+			{
+				if(player.HasCollidedWith(g.Sprite))
+				{
+					gameScene.RemoveChild(g.Sprite, true);
+				}
 			}
 		}
 		
@@ -311,7 +337,7 @@ namespace SkyDrivingTrain
 			
 		}
 		
-		public static void ChasePlayer(SpriteUV chaser, int chaserSpeed, SpriteUV player)
+		public static void ChasePlayer(SpriteUV chaser, float chaserSpeed, SpriteUV player)
 		{
 			//ALTERNATIVE CHASE "Algorithm"
 			if(player.Position.X < chaser.Position.X)

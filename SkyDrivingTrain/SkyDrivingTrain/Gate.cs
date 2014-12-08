@@ -8,20 +8,19 @@ using Sce.PlayStation.HighLevel.GameEngine2D.Base;
 
 namespace SkyDrivingTrain
 {
-	public class RedEnemy
+	public class Gate
 	{
 		private SpriteUV sprite;
 		private TextureInfo texInfo;
-		private float speed;
+		private Vector2 Position;
 		
-		public RedEnemy (float speed)
+		public Gate (Vector2 position)
 		{
-			texInfo = new TextureInfo("/Application/assets/enemy_R.png");
+			texInfo = new TextureInfo("/Application/assets/gate.png");
 			sprite = new SpriteUV(texInfo);			
 			sprite.Quad.S = texInfo.TextureSizef;
-			sprite.Position = new Vector2(10.0f, AppMain.screenHeight * 0.5f);
-			//center = node.LocalToWorld(bounds.Center);
-			this.speed = speed;
+			sprite.Scale = new Vector2(0.2f, 0.2f);
+			this.Position = position;
 			
 			//scene.AddChild(sprite);
 		}
@@ -31,11 +30,7 @@ namespace SkyDrivingTrain
 			get{ return sprite; }
 		}
 		
-		public float Speed
-		{
-			get{ return speed; }
-			set{ speed = value; }
-		}
+
 		
 		public void Update()
 		{

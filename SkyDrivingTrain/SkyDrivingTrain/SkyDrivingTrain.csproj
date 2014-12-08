@@ -45,6 +45,7 @@
     <Compile Include="BlueEnemy.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Projectile.cs" />
+    <Compile Include="Gate.cs" />
   </ItemGroup>
   <ItemGroup>
     <ShaderProgram Include="shaders\Simple.fcg" />
@@ -73,5 +74,6 @@
     <Content Include="assets\spikedShipSheet.png" />
     <Content Include="assets\missileSheet.png" />
     <Content Include="assets\placeHolderGate.png" />
+    <Content Include="assets\gate.png" />
   </ItemGroup>
 </Project>
