@@ -159,7 +159,6 @@ namespace SkyDrivingTrain
 				//collision between circle bounds has occured
 				return true;
 			}
-			
 			return false;
 		}
 		

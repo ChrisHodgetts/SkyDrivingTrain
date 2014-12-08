@@ -12,15 +12,14 @@ namespace SkyDrivingTrain
 	{
 		private SpriteUV sprite;
 		private TextureInfo texInfo;
-		private Vector2 Position;
 		
-		public Gate (Vector2 position)
+		public Gate()
 		{
 			texInfo = new TextureInfo("/Application/assets/gate.png");
 			sprite = new SpriteUV(texInfo);			
 			sprite.Quad.S = texInfo.TextureSizef;
-			sprite.Scale = new Vector2(0.2f, 0.2f);
-			this.Position = position;
+			//sprite.Scale = new Vector2(0.25f, 0.25f);
+			sprite.Position = new Vector2(100.0f, 100.0f);
 			
 			//scene.AddChild(sprite);
 		}
@@ -29,8 +28,6 @@ namespace SkyDrivingTrain
 		{
 			get{ return sprite; }
 		}
-		
-
 		
 		public void Update()
 		{

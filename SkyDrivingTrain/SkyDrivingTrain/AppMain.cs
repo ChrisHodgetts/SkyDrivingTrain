@@ -25,8 +25,8 @@ namespace SkyDrivingTrain
 		private static SpriteUV backgroundSprite;
 		
 		private static Gate testGate;
-		private static float randGatePosX;
-		private static float randGatePosY;
+		//private static float randGatePosX;
+		//private static float randGatePosY;
 	
 		private static TextureInfo backgroundTex;
 		//private static TextureInfo testGateTex;
@@ -50,6 +50,8 @@ namespace SkyDrivingTrain
 		private static int redTimeCount;
 		
 		private static float redSpeed;
+		
+		private static bool spawnNewGate;
 		
 				
 		public static void Main (string[] args)
@@ -111,20 +113,24 @@ namespace SkyDrivingTrain
 			redTimeCount = 0;
 			
 			projectiles = new List<Projectile>();
-						
+			
+			gates = new List<Gate>();
+
 			//initialise background
 			backgroundTex = new TextureInfo("/Application/assets/background.png");
 			backgroundSprite = new SpriteUV(backgroundTex);
 			backgroundSprite.Quad.S = backgroundTex.TextureSizef;
 			
 			//initialise Gate
-			randGatePosX = (float)random.Next(50, (int)screenWidth);
-			randGatePosY = (float)random.Next(50, (int)screenHeight);
-			testGate = new Gate(new Vector2(randGatePosX, randGatePosY));
+			float randGatePosX = (float)random.Next(50, (int)(screenWidth * 0.8f));
+			float randGatePosY = (float)random.Next(50, (int)(screenHeight * 0.8f));
+			testGate = new Gate();
+			testGate.Sprite.Position = new Vector2(randGatePosX, randGatePosY);
 			
-			gates = new List<Gate>();
+			
 			gates.Add(testGate);
 			
+			spawnNewGate = false;
 			
 			//Renders each sprite to scene, using Painters Algorithm
 			gameScene.AddChild(backgroundSprite);
@@ -134,7 +140,6 @@ namespace SkyDrivingTrain
 			gameScene.AddChild(redEnemy.Sprite);
 			gameScene.AddChild(blueEnemy.Sprite);
 			gameScene.AddChild(player.Sprite);
-			
 			
 			//Run the scene.
 			Director.Instance.RunWithScene(gameScene, true);
@@ -169,7 +174,6 @@ namespace SkyDrivingTrain
 			RandomMoveAlternateAxis(greenEnemy);
 			
 			//movement of blue enemy
-			
 			BluePerimCheck(blueEnemy, player.Sprite);
 			
 			if(blueEnemy.RandomMove)
@@ -197,16 +201,7 @@ namespace SkyDrivingTrain
 					projectiles.Remove(p);
 				}
 			}
-			
-			
-			
-			
 			//player - enemy collisions
-			
-			if(player.CollidedWith(blueEnemy.Sprite))
-			{
-				gameScene.RemoveChild(player.Sprite, true);
-			}
 			
 			foreach(RedEnemy r in redEnemies)
 			{
@@ -221,25 +216,69 @@ namespace SkyDrivingTrain
 				}*/
 				if(player.CollidedWith(r.Sprite))
 				{
-					gameScene.RemoveChild(player.Sprite, true);
+					//gameScene.RemoveChild(player.Sprite, true);
 				}
 			}
 			if(player.CollidedWith(greenEnemy.Sprite))
 			{
-				gameScene.RemoveChild(player.Sprite, true);
+				//gameScene.RemoveChild(player.Sprite, true);
+			}
+			if(player.CollidedWith(blueEnemy.Sprite))
+			{
+				//gameScene.RemoveChild(player.Sprite, true);
 			}
 			
 			//player - gate collisions
-			
+			//Gate explosion to destroy close Red enemies
 			foreach(Gate g in gates)
 			{
-				if(player.HasCollidedWith(g.Sprite))
+				Rectangle gRect = new Rectangle(g.Sprite.Position.X, g.Sprite.Position.Y, 50.0f, 50.0f);
+				Rectangle playerRect = new Rectangle(player.Sprite.Position.X, player.Sprite.Position.Y, 30.0f, 30.0f); 
+				
+				if(Overlaps(gRect, playerRect) && gameScene.Children.Contains(g.Sprite))
 				{
 					gameScene.RemoveChild(g.Sprite, true);
+					
+					spawnNewGate = true;
 				}
+				
+				//gates.Remove(g);
+				/*if(player.CollidedWith(g.Sprite))
+				{
+					gameScene.RemoveChild(g.Sprite, true);
+					//gates.Remove(g);
+					
+					/*foreach(RedEnemy r in redEnemies)
+					{
+						if(r.HasCollidedWith(g.Sprite))
+						{
+							gameScene.RemoveChild(r.Sprite, true);
+						}
+					}*/
+					/*
+					//IS IT THE SAME RANDOM POS EACH TIME?!
+					
+					
+				}*/
 			}
+			
+			if(spawnNewGate)
+			{
+				spawnNewGate = false;
+				
+				float randGatePosX = (float)random.Next(50, (int)(screenWidth * 0.8f));
+				float randGatePosY = (float)random.Next(50, (int)(screenHeight * 0.8f));
+				Gate newGate = new Gate();
+				newGate.Sprite.Position = new Vector2(randGatePosX, randGatePosY);
+						
+				gates.Add(newGate);
+				gameScene.AddChild(newGate.Sprite);
+			}
+			
 		}
 		
+		
+
 		public static void Input()
 		{
 			var gamePadData = GamePad.GetData(0);
@@ -474,6 +513,58 @@ namespace SkyDrivingTrain
 				enemy.Sprite.Position = new Vector2(enemy.Sprite.Position.X + enemy.Speed, enemy.Sprite.Position.Y);
 				break;
 			}
+			
+		}
+		
+		private static bool Overlaps(Rectangle rect1, Rectangle rect2)
+		{
+			//first rectangle is too far to the left to overlap
+			if(rect1.X + rect1.Width < rect2.X)
+			{
+				return false;
+			}
+			//first rectangle is too far to the right to overlap
+			if(rect1.X > rect2.X + rect2.Width)
+			{
+				return false;
+			}
+			//first rectangle is too high to overlap
+			if(rect1.Y + rect1.Height < rect2.Y)
+			{
+				return false;
+			}
+			//first rectangle is too low to overlap
+			if(rect1.Y > rect2.Y + rect2.Height)
+			{
+				return false;
+			}
+			//overlap must have occurred
+			else
+			{
+				return true;
+			}
+		}
+		
+		
+		public static void GateExplosion(Sprite gate)
+		{
+			//define radius around the gate sprite passed in
+			
+			float gateRadius = 5.0f;
+			float gateCenterX = gate.Position.X;
+			float gateCenterY = gate.Position.Y;
+			
+			//check the position of every red enemy
+			foreach(RedEnemy r in redEnemies)
+			{
+				if(r.Sprite.Position.X <= gateCenterX + gateRadius)
+				{
+					
+				}
+			}
+			//if a red enemy position is within the radius
+			
+			//remove that enemy
 			
 		}
 	}
