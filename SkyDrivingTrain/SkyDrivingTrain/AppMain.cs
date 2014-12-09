@@ -53,6 +53,12 @@ namespace SkyDrivingTrain
 		
 		private static bool spawnNewGate;
 		
+		private static  Sce.PlayStation.HighLevel.UI.Label score;
+		private static int scoreCount;
+		
+		private static  Sce.PlayStation.HighLevel.UI.Label gameOverScreen;
+
+		
 				
 		public static void Main (string[] args)
 		{
@@ -90,7 +96,25 @@ namespace SkyDrivingTrain
 			panel.Width  = Director.Instance.GL.Context.GetViewport().Width;
 			panel.Height = Director.Instance.GL.Context.GetViewport().Height;
 			
+			scoreCount = 0;
+			
+			score = new Sce.PlayStation.HighLevel.UI.Label();
+			score.X = 10;
+			score.Y = 10;
+			score.Width = 300;
+			score.TextColor = (UIColor)Colors.Orange;
+			score.Text = "Score: " + scoreCount;
+			
+			gameOverScreen = new Sce.PlayStation.HighLevel.UI.Label();
+			gameOverScreen.X = 400;
+			gameOverScreen.Y = 250;
+			gameOverScreen.Width = 200;
+			gameOverScreen.TextColor = (UIColor)Colors.Magenta;
+			gameOverScreen.Text = "GAME OVER";
+			
+			
 			uiScene.RootWidget.AddChildLast(panel);
+			uiScene.RootWidget.AddChildLast(score);
 			UISystem.SetScene(uiScene);
 			
 			//Set game scene
@@ -216,7 +240,9 @@ namespace SkyDrivingTrain
 				}*/
 				if(player.CollidedWith(r.Sprite))
 				{
-					//gameScene.RemoveChild(player.Sprite, true);
+					gameScene.RemoveChild(player.Sprite, true);
+					uiScene.RootWidget.AddChildLast(gameOverScreen);
+
 				}
 			}
 			if(player.CollidedWith(greenEnemy.Sprite))
@@ -238,6 +264,9 @@ namespace SkyDrivingTrain
 				if(Overlaps(gRect, playerRect) && gameScene.Children.Contains(g.Sprite))
 				{
 					gameScene.RemoveChild(g.Sprite, true);
+					scoreCount++;
+					score.Text = "Score: " + scoreCount;
+
 					
 					spawnNewGate = true;
 				}
