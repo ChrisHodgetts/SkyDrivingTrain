@@ -12,14 +12,14 @@ namespace SkyDrivingTrain
 	{
 		private SpriteUV sprite;
 		private TextureInfo texInfo;
-		private int speed;
+		private float speed;
 		
 		private Bounds2 bounds;
 		private Vector2 center;
 		private AppMain.Direction direction;
 		
 		
-		public Player(int speed)
+		public Player(float speed)
 		{
 			texInfo = new TextureInfo("/Application/assets/spikedShipSheet.png");
 			sprite = new SpriteUV(texInfo);	
@@ -66,7 +66,7 @@ namespace SkyDrivingTrain
 		{
 			get { return bounds; }
 		}
-		public int Speed
+		public float Speed
 		{
 			get{ return speed; }
 			set{ speed = value; }

@@ -75,5 +75,9 @@
     <Content Include="assets\missileSheet.png" />
     <Content Include="assets\placeHolderGate.png" />
     <Content Include="assets\gate.png" />
+    <Content Include="assets\explosion.wav" />
+    <Content Include="assets\missile_shot.wav" />
+    <Content Include="assets\speedUp.wav" />
+    <Content Include="assets\gameOver.wav" />
   </ItemGroup>
 </Project>

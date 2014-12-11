@@ -47,13 +47,27 @@ namespace SkyDrivingTrain
 		private static List<Projectile> projectiles;
 		private static List<Gate> gates;
 		
+		private static BgmPlayer bgmp;
+		private static SoundPlayer gameOverSP;
+		private static SoundPlayer explosionSP;
+		private static SoundPlayer speedUpSP;
+		private static SoundPlayer missileSP;
+		
 		private static int redTimeCount;
+		private static int scoreTimeCount;
+		private static int playerSpeedTimeCount;
 		
 		private static float redSpeed;
+		private static float playerSpeed;
 		
 		private static bool spawnNewGate;
+		private static bool playerAlive;
+		private static bool fireEnabled;
 		
 		private static  Sce.PlayStation.HighLevel.UI.Label score;
+		private static Sce.PlayStation.HighLevel.UI.Label instructions;
+		private static Sce.PlayStation.HighLevel.UI.Label instructions2;
+		
 		private static int scoreCount;
 		
 		private static  Sce.PlayStation.HighLevel.UI.Label gameOverScreen;
@@ -112,9 +126,25 @@ namespace SkyDrivingTrain
 			gameOverScreen.TextColor = (UIColor)Colors.Magenta;
 			gameOverScreen.Text = "GAME OVER";
 			
+			instructions = new Sce.PlayStation.HighLevel.UI.Label();
+			instructions.X = 568;
+			instructions.Y = 10;
+			instructions.Width = 500;
+			instructions.TextColor = (UIColor)Colors.Magenta;
+			instructions.Text = "Missiles disabled, score 30 to activate";
+			
+			instructions2 = new Sce.PlayStation.HighLevel.UI.Label();
+			instructions2.X = 785;
+			instructions2.Y = 10;
+			instructions2.Width = 500;
+			instructions2.TextColor = (UIColor)Colors.Magenta;
+			instructions2.Text = "Missiles enabled";
+			
 			
 			uiScene.RootWidget.AddChildLast(panel);
 			uiScene.RootWidget.AddChildLast(score);
+			uiScene.RootWidget.AddChildLast(instructions);
+			uiScene.RootWidget.RemoveChild(instructions2);
 			UISystem.SetScene(uiScene);
 			
 			//Set game scene
@@ -125,8 +155,9 @@ namespace SkyDrivingTrain
 			screenHeight = Director.Instance.GL.Context.GetViewport().Height;
 			screenWidth = Director.Instance.GL.Context.GetViewport().Width;
 			
-			player = new Player(5);
 			redSpeed = 3.0f;
+			playerSpeed = 5.0f;
+			player = new Player(playerSpeed);
 			
 			redEnemy = new RedEnemy(redSpeed);
 			blueEnemy = new BlueEnemy(2);
@@ -136,7 +167,12 @@ namespace SkyDrivingTrain
 			redEnemies.Add(redEnemy);
 			redTimeCount = 0;
 			
+			playerSpeedTimeCount = 0;
+			
 			projectiles = new List<Projectile>();
+			
+			playerAlive = true;
+			fireEnabled = false;
 			
 			gates = new List<Gate>();
 
@@ -150,6 +186,32 @@ namespace SkyDrivingTrain
 			float randGatePosY = (float)random.Next(50, (int)(screenHeight * 0.8f));
 			testGate = new Gate();
 			testGate.Sprite.Position = new Vector2(randGatePosX, randGatePosY);
+			
+			//initialise background music
+			Bgm bgm = new Bgm("/Application/assets/gameMusic.mp3");
+			bgmp = bgm.CreatePlayer();
+			bgmp.Loop = true;
+			bgmp.Play();
+			
+			//intialise missile sound
+			Sound missileSound;
+			missileSound = new Sound("/Application/assets/missile_shot.wav");
+			missileSP = missileSound.CreatePlayer();
+			
+			//initalise explosion sound
+			Sound explosionSound;
+			explosionSound = new Sound("/Application/assets/explosion.wav");
+			explosionSP = explosionSound.CreatePlayer();
+			
+			//initialise game over sound
+			Sound gameOverSound;
+			gameOverSound = new Sound ("/Application/assets/gameOver.wav");
+			gameOverSP = gameOverSound.CreatePlayer();
+			
+			//initialise speed up sound
+			Sound speedUpSound;
+			speedUpSound = new Sound ("/Application/assets/speedUp.wav");
+			speedUpSP = speedUpSound.CreatePlayer();
 			
 			
 			gates.Add(testGate);
@@ -183,6 +245,8 @@ namespace SkyDrivingTrain
 			}
 			
 			redTimeCount++;
+			scoreTimeCount++;
+			playerSpeedTimeCount++;
 			
 			if(redTimeCount >= 600)
 			{
@@ -195,6 +259,32 @@ namespace SkyDrivingTrain
 				redEnemies.Add(red);
 			}
 			
+			if(scoreTimeCount >=60)
+			{
+				scoreCount +=10;
+				scoreTimeCount = 0;
+				
+			}
+			
+			if(playerSpeedTimeCount >= 90)
+			{
+				playerSpeedTimeCount -= 90;
+				playerSpeed = 5.0f;
+				player.Speed = playerSpeed;
+			}
+			
+			if(playerAlive == false)
+			{
+				bgmp.Stop();
+				gameOverSP.Volume = 0.5f;
+				gameOverSP.Play();	
+			}
+			
+			if(fireEnabled == true)
+			{
+				uiScene.RootWidget.RemoveChild(instructions);
+				uiScene.RootWidget.AddChildLast(instructions2);
+			}
 			
 			//Movement of green enemy
 			RandomMoveAlternateAxis(greenEnemy);
@@ -220,18 +310,25 @@ namespace SkyDrivingTrain
 				if(p.Live)
 				{
 					p.Update();
+					missileSP.Volume = 0.5f;
+					missileSP.Play();
 					//projectile->blue enemy collisions
 					if(p.CollidedWith(blueEnemy.Sprite))
 					{
 						gameScene.RemoveChild(p.Sprite, true);
-						gameScene.RemoveChild(blueEnemy.Sprite, true);                    
+						gameScene.RemoveChild(blueEnemy.Sprite, true);
+						
+						explosionSP.Volume = 0.5f;
+						explosionSP.Play();
 					}
 					
 					//projectile->green enemy collisions
 					if(p.CollidedWith(greenEnemy.Sprite))
 					{
 						gameScene.RemoveChild(p.Sprite, true);
-						gameScene.RemoveChild(greenEnemy.Sprite, true);    
+						gameScene.RemoveChild(greenEnemy.Sprite, true);
+						explosionSP.Volume = 0.5f;
+						explosionSP.Play();
 					}
 					//projectile->red enemy collisions
 					foreach(RedEnemy red in redEnemies)
@@ -239,7 +336,9 @@ namespace SkyDrivingTrain
 						if(p.CollidedWith(red.Sprite))
 						{
 							gameScene.RemoveChild(p.Sprite, true);
-							gameScene.RemoveChild(red.Sprite, true);    
+							gameScene.RemoveChild(red.Sprite, true);
+							explosionSP.Volume = 0.5f;
+							explosionSP.Play();
 						}
 					}
 				}
@@ -257,21 +356,27 @@ namespace SkyDrivingTrain
 				
 				if(player.CollidedWith(r.Sprite))
 				{
+					playerAlive = false;
 					gameScene.RemoveChild(player.Sprite, true);
 					uiScene.RootWidget.AddChildLast(gameOverScreen);
+					
 				}
 			}
 			
 			if(player.CollidedWith(greenEnemy.Sprite))
 			{
+				playerAlive = false;
 				gameScene.RemoveChild(player.Sprite, true);
 				uiScene.RootWidget.AddChildLast(gameOverScreen);
 			}
+				
 			
 			if(player.CollidedWith(blueEnemy.Sprite))
 			{
+				playerAlive = false;
 				gameScene.RemoveChild(player.Sprite, true);
 				uiScene.RootWidget.AddChildLast(gameOverScreen);
+				
 			}
 			
 			//player - gate collisions
@@ -283,11 +388,16 @@ namespace SkyDrivingTrain
 				if(Overlaps(gRect, playerRect) && gameScene.Children.Contains(g.Sprite))
 				{
 					gameScene.RemoveChild(g.Sprite, true);
-					scoreCount++;
+					scoreCount += 5;
+					speedUpSP.Volume = 0.5f;
+					speedUpSP.Play();
+					playerSpeed *= 1.5f;
+					player.Speed = playerSpeed;
 					
 					if(scoreCount >= 30)
 					{
 						playerCanShoot = true;
+						fireEnabled = true;
 					}
 					
 					score.Text = "Score: " + scoreCount;
