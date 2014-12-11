@@ -189,6 +189,7 @@ namespace SkyDrivingTrain
 				redSpeed += 0.1f;
 				redTimeCount = 0;
 				RedEnemy red = new RedEnemy(redSpeed);
+				red.Sprite.Position = chooseRedSpawn();
 	
 				gameScene.AddChild(red.Sprite);
 				redEnemies.Add(red);
@@ -237,7 +238,7 @@ namespace SkyDrivingTrain
 						gameScene.RemoveChild(p.Sprite, true);
 						gameScene.RemoveChild(greenEnemy.Sprite, true);    
 					}
-					
+					//projectile->red enemy collisions
 					foreach(RedEnemy red in redEnemies)
 					{
 						Rectangle redRect = new Rectangle(red.Sprite.Position.X, red.Sprite.Position.Y, 30.0f, 30.0f);
@@ -246,9 +247,7 @@ namespace SkyDrivingTrain
 							gameScene.RemoveChild(p.Sprite, true);
 							gameScene.RemoveChild(red.Sprite, true);    
 						}
-						
 					}
-
 				}
 				
 				if(p.Position.X > screenWidth || p.Position.X < 0 || p.Position.Y > screenHeight || p.Position.Y < 0)
@@ -264,9 +263,8 @@ namespace SkyDrivingTrain
 				
 				if(player.CollidedWith(r.Sprite))
 				{
-					gameScene.RemoveChild(player.Sprite, true);
-					uiScene.RootWidget.AddChildLast(gameOverScreen);
-
+					//gameScene.RemoveChild(player.Sprite, true);
+					//uiScene.RootWidget.AddChildLast(gameOverScreen);
 				}
 			}
 			
@@ -274,14 +272,12 @@ namespace SkyDrivingTrain
 			{
 				gameScene.RemoveChild(player.Sprite, true);
 				uiScene.RootWidget.AddChildLast(gameOverScreen);
-
 			}
 			
 			if(player.CollidedWith(blueEnemy.Sprite))
 			{
 				gameScene.RemoveChild(player.Sprite, true);
 				uiScene.RootWidget.AddChildLast(gameOverScreen);
-
 			}
 			
 			//player - gate collisions
@@ -301,11 +297,8 @@ namespace SkyDrivingTrain
 					}
 					
 					score.Text = "Score: " + scoreCount;
-
-					
 					spawnNewGate = true;
 				}
-				
 				//gates.Remove(g);
 				/*if(player.CollidedWith(g.Sprite))
 				{
@@ -338,7 +331,6 @@ namespace SkyDrivingTrain
 				gates.Add(newGate);
 				gameScene.AddChild(newGate.Sprite);
 			}
-			
 		}
 		
 		
@@ -438,6 +430,39 @@ namespace SkyDrivingTrain
 				enemy.WallCollisionCount++;			
 			}
 			
+		}
+		
+		public static Vector2 chooseRedSpawn()
+		{
+			//define four spawn locations
+			//N
+			Vector2 loc1 = new Vector2(screenWidth / 2.0f, screenHeight - 10.0f);
+			//E
+			Vector2 loc2 = new Vector2(screenWidth - 10.0f, screenHeight / 2.0f);
+			//S
+			Vector2 loc3 = new Vector2(screenWidth / 2.0f, 10.0f);
+			//W
+			Vector2 loc4 = new Vector2(10.0f, screenHeight / 2.0f);
+			
+			Random random = new Random();
+			int choice = random.Next(1, 5);//picks 1, 2, 3, or 4
+			                           
+			switch(choice)
+			{
+				case 1:
+					return loc1;
+					
+				case 2:
+					return loc2;
+					
+				case 3:
+					return loc3;
+					
+				case 4:
+					return loc4;
+			}
+			
+			return loc1;
 		}
 		
 		public static void ChasePlayer(SpriteUV chaser, float chaserSpeed, SpriteUV player)

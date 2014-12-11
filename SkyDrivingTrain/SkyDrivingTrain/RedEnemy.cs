@@ -19,7 +19,7 @@ namespace SkyDrivingTrain
 			texInfo = new TextureInfo("/Application/assets/enemy_R.png");
 			sprite = new SpriteUV(texInfo);			
 			sprite.Quad.S = texInfo.TextureSizef;
-			sprite.Position = new Vector2(10.0f, AppMain.screenHeight * 0.5f);
+			sprite.Position = AppMain.chooseRedSpawn();
 			//center = node.LocalToWorld(bounds.Center);
 			this.speed = speed;
 			
