@@ -1,0 +1,9 @@
+need to check radius for:
+
+Red = 32x32
+green = 32x32
+blue = 32x32
+player = 30x30
+
+gate = 80 x 10
+projectile = 30 x 30

@@ -35,6 +35,43 @@ namespace SkyDrivingTrain
 			//scene.AddChild(sprite);
 		}
 		
+		public bool CollidedWith(SpriteUV sprite)//BlueEnemy enemy, SpriteUV player)
+		{
+			//
+			///define center point of projectiles circle
+			//
+			float projCenterX = this.sprite.Position.X;
+			float projCenterY = this.sprite.Position.Y;
+			//
+			///define center point of obstacles cirlce
+			//
+			float obstacleCenterX = sprite.Position.X;
+			float obstacleCenterY = sprite.Position.Y;
+	 		//
+			///define radius of players circle
+			//
+			//for the 30x30 images
+			float projRadius = 15.0f;
+			//
+			///define radius of obstacles circle
+			//
+			//32x32 enemies
+			float obstacleRadius = 16.0f;
+			
+			
+			float distanceX = projCenterX - obstacleCenterX;
+			float distanceY = projCenterY - obstacleCenterY;
+			
+			float distance = FMath.Sqrt((distanceX * distanceX) + (distanceY * distanceY));
+			
+			if(distance < (obstacleRadius + projRadius))
+			{
+				//collision between circle bounds has occured
+				return true;
+			}
+			return false;
+		}
+		
 		public SpriteUV Sprite
 		{
 			get{ return sprite; }

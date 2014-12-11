@@ -221,19 +221,14 @@ namespace SkyDrivingTrain
 				{
 					p.Update();
 					//projectile->blue enemy collisions
-					Rectangle projRect = new Rectangle(p.Sprite.Position.X, p.Sprite.Position.Y, 25.0f, 25.0f);
-					Rectangle blueRect = new Rectangle(blueEnemy.Sprite.Position.X, blueEnemy.Sprite.Position.Y, 30.0f, 30.0f);
-					
-					if(Overlaps(projRect, blueRect))
+					if(p.CollidedWith(blueEnemy.Sprite))
 					{
 						gameScene.RemoveChild(p.Sprite, true);
 						gameScene.RemoveChild(blueEnemy.Sprite, true);                    
 					}
 					
 					//projectile->green enemy collisions
-					Rectangle greenRect = new Rectangle(greenEnemy.Sprite.Position.X, greenEnemy.Sprite.Position.Y, 30.0f, 30.0f);
-					
-					if(Overlaps(projRect, greenRect))
+					if(p.CollidedWith(greenEnemy.Sprite))
 					{
 						gameScene.RemoveChild(p.Sprite, true);
 						gameScene.RemoveChild(greenEnemy.Sprite, true);    
@@ -241,8 +236,7 @@ namespace SkyDrivingTrain
 					//projectile->red enemy collisions
 					foreach(RedEnemy red in redEnemies)
 					{
-						Rectangle redRect = new Rectangle(red.Sprite.Position.X, red.Sprite.Position.Y, 30.0f, 30.0f);
-						if(Overlaps(projRect, redRect))
+						if(p.CollidedWith(red.Sprite))
 						{
 							gameScene.RemoveChild(p.Sprite, true);
 							gameScene.RemoveChild(red.Sprite, true);    
@@ -263,8 +257,8 @@ namespace SkyDrivingTrain
 				
 				if(player.CollidedWith(r.Sprite))
 				{
-					//gameScene.RemoveChild(player.Sprite, true);
-					//uiScene.RootWidget.AddChildLast(gameOverScreen);
+					gameScene.RemoveChild(player.Sprite, true);
+					uiScene.RootWidget.AddChildLast(gameOverScreen);
 				}
 			}
 			
@@ -283,7 +277,7 @@ namespace SkyDrivingTrain
 			//player - gate collisions
 			foreach(Gate g in gates)
 			{
-				Rectangle gRect = new Rectangle(g.Sprite.Position.X, g.Sprite.Position.Y, 50.0f, 50.0f);
+				Rectangle gRect = new Rectangle(g.Sprite.Position.X, g.Sprite.Position.Y, 80.0f, 10.0f);
 				Rectangle playerRect = new Rectangle(player.Sprite.Position.X, player.Sprite.Position.Y, 30.0f, 30.0f); 
 				
 				if(Overlaps(gRect, playerRect) && gameScene.Children.Contains(g.Sprite))
@@ -299,24 +293,6 @@ namespace SkyDrivingTrain
 					score.Text = "Score: " + scoreCount;
 					spawnNewGate = true;
 				}
-				//gates.Remove(g);
-				/*if(player.CollidedWith(g.Sprite))
-				{
-					gameScene.RemoveChild(g.Sprite, true);
-					//gates.Remove(g);
-					
-					/*foreach(RedEnemy r in redEnemies)
-					{
-						if(r.HasCollidedWith(g.Sprite))
-						{
-							gameScene.RemoveChild(r.Sprite, true);
-						}
-					}*/
-					/*
-					//IS IT THE SAME RANDOM POS EACH TIME?!
-					
-					
-				}*/
 			}
 			
 			if(spawnNewGate)
@@ -332,8 +308,6 @@ namespace SkyDrivingTrain
 				gameScene.AddChild(newGate.Sprite);
 			}
 		}
-		
-		
 
 		public static void Input()
 		{
@@ -560,7 +534,7 @@ namespace SkyDrivingTrain
 			float playerCenterY = player.Position.Y;
 			
 			//define radius of blues circle
-			float enemyRadius = 15.0f;
+			float enemyRadius = 16.0f;
 			//define radius of player circle
 			float playerRadius = 15.0f;
 			
