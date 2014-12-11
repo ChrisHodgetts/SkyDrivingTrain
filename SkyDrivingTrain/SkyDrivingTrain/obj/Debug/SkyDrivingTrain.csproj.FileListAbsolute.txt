@@ -177,3 +177,5 @@ F:\Users\Dan\Uni\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\S
 F:\Users\Dan\Uni\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\assets\placeHolderGate.png
 F:\Users\Dan\Uni\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\assets\gate.png
 F:\Users\Dan\Uni\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\assets\gate.png
+E:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\assets\gate.png
+E:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\assets\gate.png

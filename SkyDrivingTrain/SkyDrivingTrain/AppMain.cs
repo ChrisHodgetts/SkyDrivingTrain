@@ -58,7 +58,7 @@ namespace SkyDrivingTrain
 		
 		private static  Sce.PlayStation.HighLevel.UI.Label gameOverScreen;
 
-		
+		private static bool playerCanShoot;		
 				
 		public static void Main (string[] args)
 		{
@@ -155,6 +155,7 @@ namespace SkyDrivingTrain
 			gates.Add(testGate);
 			
 			spawnNewGate = false;
+			playerCanShoot = false;
 			
 			//Renders each sprite to scene, using Painters Algorithm
 			gameScene.AddChild(backgroundSprite);
@@ -218,26 +219,49 @@ namespace SkyDrivingTrain
 				if(p.Live)
 				{
 					p.Update();
+					//projectile->blue enemy collisions
+					Rectangle projRect = new Rectangle(p.Sprite.Position.X, p.Sprite.Position.Y, 25.0f, 25.0f);
+					Rectangle blueRect = new Rectangle(blueEnemy.Sprite.Position.X, blueEnemy.Sprite.Position.Y, 30.0f, 30.0f);
+					
+					if(Overlaps(projRect, blueRect))
+					{
+						gameScene.RemoveChild(p.Sprite, true);
+						gameScene.RemoveChild(blueEnemy.Sprite, true);                    
+					}
+					
+					//projectile->green enemy collisions
+					Rectangle greenRect = new Rectangle(greenEnemy.Sprite.Position.X, greenEnemy.Sprite.Position.Y, 30.0f, 30.0f);
+					
+					if(Overlaps(projRect, greenRect))
+					{
+						gameScene.RemoveChild(p.Sprite, true);
+						gameScene.RemoveChild(greenEnemy.Sprite, true);    
+					}
+					
+					foreach(RedEnemy red in redEnemies)
+					{
+						Rectangle redRect = new Rectangle(red.Sprite.Position.X, red.Sprite.Position.Y, 30.0f, 30.0f);
+						if(Overlaps(projRect, redRect))
+						{
+							gameScene.RemoveChild(p.Sprite, true);
+							gameScene.RemoveChild(red.Sprite, true);    
+						}
+						
+					}
+
 				}
 				
 				if(p.Position.X > screenWidth || p.Position.X < 0 || p.Position.Y > screenHeight || p.Position.Y < 0)
 				{
+					p.Live = false;
 					projectiles.Remove(p);
 				}
 			}
-			//player - enemy collisions
 			
+			//player - enemy collisions
 			foreach(RedEnemy r in redEnemies)
 			{
-				/*foreach(RedEnemy re in redEnemies)
-				{
-					if(r.Sprite.Position.X - re.Sprite.Position.X <= 1.0f)
-					{
-						r.Sprite.Position = new Vector2(r.Sprite.Position.X + 1.0f, r.Sprite.Position.Y);
-						re.Sprite.Position = new Vector2(re.Sprite.Position.X - 1.0f, re.Sprite.Position.Y);
-
-					}
-				}*/
+				
 				if(player.CollidedWith(r.Sprite))
 				{
 					gameScene.RemoveChild(player.Sprite, true);
@@ -245,17 +269,22 @@ namespace SkyDrivingTrain
 
 				}
 			}
+			
 			if(player.CollidedWith(greenEnemy.Sprite))
 			{
-				//gameScene.RemoveChild(player.Sprite, true);
+				gameScene.RemoveChild(player.Sprite, true);
+				uiScene.RootWidget.AddChildLast(gameOverScreen);
+
 			}
+			
 			if(player.CollidedWith(blueEnemy.Sprite))
 			{
-				//gameScene.RemoveChild(player.Sprite, true);
+				gameScene.RemoveChild(player.Sprite, true);
+				uiScene.RootWidget.AddChildLast(gameOverScreen);
+
 			}
 			
 			//player - gate collisions
-			//Gate explosion to destroy close Red enemies
 			foreach(Gate g in gates)
 			{
 				Rectangle gRect = new Rectangle(g.Sprite.Position.X, g.Sprite.Position.Y, 50.0f, 50.0f);
@@ -265,6 +294,12 @@ namespace SkyDrivingTrain
 				{
 					gameScene.RemoveChild(g.Sprite, true);
 					scoreCount++;
+					
+					if(scoreCount >= 30)
+					{
+						playerCanShoot = true;
+					}
+					
 					score.Text = "Score: " + scoreCount;
 
 					
@@ -339,7 +374,7 @@ namespace SkyDrivingTrain
 				player.Direction = Direction.Down;
 			}
 			
-			if((gamePadData.ButtonsUp & GamePadButtons.Start) != 0)
+			if(((gamePadData.ButtonsUp & GamePadButtons.Start) != 0) && playerCanShoot)
 			{
 				Projectile p1 = new Projectile(player.Sprite.Position, 10, player.Direction);
 				p1.Live = true;
@@ -586,10 +621,7 @@ namespace SkyDrivingTrain
 			//check the position of every red enemy
 			foreach(RedEnemy r in redEnemies)
 			{
-				if(r.Sprite.Position.X <= gateCenterX + gateRadius)
-				{
-					
-				}
+				
 			}
 			//if a red enemy position is within the radius
 			

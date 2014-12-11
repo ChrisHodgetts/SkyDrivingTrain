@@ -142,11 +142,12 @@ namespace SkyDrivingTrain
 	 		//
 			///define radius of players circle
 			//
-			float playerRadius = 1.0f;
+			//for the 32x32 images
+			float playerRadius = 16.0f;
 			//
 			///define radius of obstacles circle
 			//
-			float obstacleRadius = 1.0f;
+			float obstacleRadius = 16.0f;
 			
 			
 			float distanceX = playerCenterX - obstacleCenterX;
