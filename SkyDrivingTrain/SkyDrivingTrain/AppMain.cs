@@ -25,11 +25,8 @@ namespace SkyDrivingTrain
 		private static SpriteUV backgroundSprite;
 		
 		private static Gate testGate;
-		//private static float randGatePosX;
-		//private static float randGatePosY;
 	
 		private static TextureInfo backgroundTex;
-		//private static TextureInfo testGateTex;
 		
 		public static float screenHeight;
 		public static float screenWidth;
@@ -69,10 +66,13 @@ namespace SkyDrivingTrain
 		private static Sce.PlayStation.HighLevel.UI.Label instructions2;
 		
 		private static int scoreCount;
+		private static int blueMoveFrameCount;
 		
 		private static  Sce.PlayStation.HighLevel.UI.Label gameOverScreen;
 
-		private static bool playerCanShoot;		
+		private static bool playerCanShoot;
+		private static bool scoreFromGate;
+		private static bool gameOver;
 				
 		public static void Main (string[] args)
 		{
@@ -100,6 +100,8 @@ namespace SkyDrivingTrain
 		{
 			random = new Random();
 			
+			gameOver = false;
+			
 			//Setup
 			Director.Initialize ();
 			UISystem.Initialize(Director.Instance.GL.Context);
@@ -111,6 +113,7 @@ namespace SkyDrivingTrain
 			panel.Height = Director.Instance.GL.Context.GetViewport().Height;
 			
 			scoreCount = 0;
+			blueMoveFrameCount = 0;
 			
 			score = new Sce.PlayStation.HighLevel.UI.Label();
 			score.X = 10;
@@ -127,18 +130,18 @@ namespace SkyDrivingTrain
 			gameOverScreen.Text = "GAME OVER";
 			
 			instructions = new Sce.PlayStation.HighLevel.UI.Label();
-			instructions.X = 568;
+			instructions.X = 525;
 			instructions.Y = 10;
 			instructions.Width = 500;
 			instructions.TextColor = (UIColor)Colors.Magenta;
-			instructions.Text = "Missiles disabled, score 30 to activate";
+			instructions.Text = "Missiles disabled, score higher to activate!";
 			
 			instructions2 = new Sce.PlayStation.HighLevel.UI.Label();
-			instructions2.X = 785;
+			instructions2.X = 600;
 			instructions2.Y = 10;
 			instructions2.Width = 500;
 			instructions2.TextColor = (UIColor)Colors.Magenta;
-			instructions2.Text = "Missiles enabled";
+			instructions2.Text = "Missiles enabled, press start to fire.";
 			
 			
 			uiScene.RootWidget.AddChildLast(panel);
@@ -173,6 +176,7 @@ namespace SkyDrivingTrain
 			
 			playerAlive = true;
 			fireEnabled = false;
+			scoreFromGate = false;
 			
 			gates = new List<Gate>();
 
@@ -234,189 +238,200 @@ namespace SkyDrivingTrain
 		
 		public static void Update()
 		{				
-			CheckPlayerBoundaries();
-			CheckEnemyBoundaries(greenEnemy);
-			
-			Input();
-			
-			foreach(RedEnemy r in redEnemies)
+			if(!gameOver)
 			{
-				ChasePlayer(r.Sprite, r.Speed, player.Sprite);
-			}
-			
-			redTimeCount++;
-			scoreTimeCount++;
-			playerSpeedTimeCount++;
-			
-			if(redTimeCount >= 600)
-			{
-				redSpeed += 0.1f;
-				redTimeCount = 0;
-				RedEnemy red = new RedEnemy(redSpeed);
-				red.Sprite.Position = chooseRedSpawn();
-	
-				gameScene.AddChild(red.Sprite);
-				redEnemies.Add(red);
-			}
-			
-			if(scoreTimeCount >=60)
-			{
-				scoreCount +=10;
-				scoreTimeCount = 0;
+				CheckPlayerBoundaries();
+				CheckEnemyBoundaries(greenEnemy);
+				Input();
 				
-			}
-			
-			if(playerSpeedTimeCount >= 90)
-			{
-				playerSpeedTimeCount -= 90;
-				playerSpeed = 5.0f;
-				player.Speed = playerSpeed;
-			}
-			
-			if(playerAlive == false)
-			{
-				bgmp.Stop();
-				gameOverSP.Volume = 0.5f;
-				gameOverSP.Play();	
-			}
-			
-			if(fireEnabled == true)
-			{
-				uiScene.RootWidget.RemoveChild(instructions);
-				uiScene.RootWidget.AddChildLast(instructions2);
-			}
-			
-			//Movement of green enemy
-			RandomMoveAlternateAxis(greenEnemy);
-			
-			//movement of blue enemy
-			BluePerimCheck(blueEnemy, player.Sprite);
-			
-			if(blueEnemy.RandomMove)
-			{
-				//Movement for blue enemies before perimeter has been breached
-				RandomMove(blueEnemy);
-			}
-			
-			if(blueEnemy.PerimeterBroken)
-			{
-				ChasePlayer(blueEnemy.Sprite, blueEnemy.Speed, player.Sprite);
-			}
-			
-			player.Update();
-			
-			foreach(Projectile p in projectiles)
-			{
-				if(p.Live)
+				foreach(RedEnemy r in redEnemies)
 				{
-					p.Update();
-					missileSP.Volume = 0.5f;
-					missileSP.Play();
-					//projectile->blue enemy collisions
-					if(p.CollidedWith(blueEnemy.Sprite))
+					ChasePlayer(r.Sprite, r.Speed, player.Sprite);
+				}
+				
+				redTimeCount++;
+				scoreTimeCount++;
+				playerSpeedTimeCount++;
+				
+	
+				if(redTimeCount >= 600)
+				{
+					redSpeed += 0.1f;
+					redTimeCount = 0;
+					RedEnemy red = new RedEnemy(redSpeed);
+					red.Sprite.Position = chooseRedSpawn();
+		
+					gameScene.AddChild(red.Sprite);
+					redEnemies.Add(red);
+				}
+				
+				if(scoreTimeCount >= 60)
+				{
+					scoreTimeCount -= 60;
+					scoreCount += 1;
+				}
+				
+				score.Text = "Score: " + scoreCount;
+				
+				if(playerSpeedTimeCount >= 90)
+				{
+					playerSpeedTimeCount -= 90;
+					playerSpeed = 5.0f;
+					player.Speed = playerSpeed;
+				}
+				
+				if(fireEnabled == true)
+				{
+					uiScene.RootWidget.RemoveChild(instructions);
+					uiScene.RootWidget.AddChildLast(instructions2);
+				}
+				
+				//Movement of green enemy
+				RandomMoveAlternateAxis(greenEnemy);
+				
+				//movement of blue enemy
+				BluePerimCheck(blueEnemy, player.Sprite);
+				
+				if(blueEnemy.RandomMove)
+				{
+					//Movement for blue enemies before perimeter has been breached
+					RandomMove(blueEnemy);
+				}
+				
+				if(blueEnemy.PerimeterBroken)
+				{
+					ChasePlayer(blueEnemy.Sprite, blueEnemy.Speed, player.Sprite);
+				}
+				
+				player.Update();
+				
+				foreach(Projectile p in projectiles)
+				{
+					if(p.Live)
 					{
-						gameScene.RemoveChild(p.Sprite, true);
-						gameScene.RemoveChild(blueEnemy.Sprite, true);
-						
-						explosionSP.Volume = 0.5f;
-						explosionSP.Play();
-					}
-					
-					//projectile->green enemy collisions
-					if(p.CollidedWith(greenEnemy.Sprite))
-					{
-						gameScene.RemoveChild(p.Sprite, true);
-						gameScene.RemoveChild(greenEnemy.Sprite, true);
-						explosionSP.Volume = 0.5f;
-						explosionSP.Play();
-					}
-					//projectile->red enemy collisions
-					foreach(RedEnemy red in redEnemies)
-					{
-						if(p.CollidedWith(red.Sprite))
+						p.Update();
+						missileSP.Volume = 0.5f;
+						missileSP.Play();
+						//projectile->blue enemy collisions
+						if(p.CollidedWith(blueEnemy.Sprite))
 						{
 							gameScene.RemoveChild(p.Sprite, true);
-							gameScene.RemoveChild(red.Sprite, true);
+							gameScene.RemoveChild(blueEnemy.Sprite, true);
+							
 							explosionSP.Volume = 0.5f;
 							explosionSP.Play();
 						}
+						
+						//projectile->green enemy collisions
+						if(p.CollidedWith(greenEnemy.Sprite))
+						{
+							gameScene.RemoveChild(p.Sprite, true);
+							gameScene.RemoveChild(greenEnemy.Sprite, true);
+							explosionSP.Volume = 0.5f;
+							explosionSP.Play();
+						}
+						//projectile->red enemy collisions
+						foreach(RedEnemy red in redEnemies)
+						{
+							if(p.CollidedWith(red.Sprite))
+							{
+								gameScene.RemoveChild(p.Sprite, true);
+								gameScene.RemoveChild(red.Sprite, true);
+								explosionSP.Volume = 0.5f;
+								explosionSP.Play();
+							}
+						}
+					}
+					
+					if(p.Position.X > screenWidth || p.Position.X < 0 || p.Position.Y > screenHeight || p.Position.Y < 0)
+					{
+						p.Live = false;
+						projectiles.Remove(p);
 					}
 				}
 				
-				if(p.Position.X > screenWidth || p.Position.X < 0 || p.Position.Y > screenHeight || p.Position.Y < 0)
+				if(scoreCount >= 30)
 				{
-					p.Live = false;
-					projectiles.Remove(p);
+							playerCanShoot = true;
+							fireEnabled = true;
 				}
-			}
-			
-			//player - enemy collisions
-			foreach(RedEnemy r in redEnemies)
-			{
 				
-				if(player.CollidedWith(r.Sprite))
+				//player - enemy collisions
+				foreach(RedEnemy r in redEnemies)
+				{
+					
+					if(player.CollidedWith(r.Sprite))
+					{
+						playerAlive = false;
+						gameScene.RemoveChild(player.Sprite, true);
+						gameOver = true;
+						
+					}
+				}
+				
+				if(player.CollidedWith(greenEnemy.Sprite))
 				{
 					playerAlive = false;
 					gameScene.RemoveChild(player.Sprite, true);
-					uiScene.RootWidget.AddChildLast(gameOverScreen);
-					
+					gameOver = true;
 				}
-			}
-			
-			if(player.CollidedWith(greenEnemy.Sprite))
-			{
-				playerAlive = false;
-				gameScene.RemoveChild(player.Sprite, true);
-				uiScene.RootWidget.AddChildLast(gameOverScreen);
-			}
+					
 				
-			
-			if(player.CollidedWith(blueEnemy.Sprite))
-			{
-				playerAlive = false;
-				gameScene.RemoveChild(player.Sprite, true);
-				uiScene.RootWidget.AddChildLast(gameOverScreen);
-				
-			}
-			
-			//player - gate collisions
-			foreach(Gate g in gates)
-			{
-				Rectangle gRect = new Rectangle(g.Sprite.Position.X, g.Sprite.Position.Y, 80.0f, 10.0f);
-				Rectangle playerRect = new Rectangle(player.Sprite.Position.X, player.Sprite.Position.Y, 30.0f, 30.0f); 
-				
-				if(Overlaps(gRect, playerRect) && gameScene.Children.Contains(g.Sprite))
+				if(player.CollidedWith(blueEnemy.Sprite))
 				{
-					gameScene.RemoveChild(g.Sprite, true);
-					scoreCount += 5;
-					speedUpSP.Volume = 0.5f;
-					speedUpSP.Play();
-					playerSpeed *= 1.5f;
-					player.Speed = playerSpeed;
+					playerAlive = false;
+					gameScene.RemoveChild(player.Sprite, true);
+					gameOver = true;				
+				}
+				
+				//player - gate collisions
+				foreach(Gate g in gates)
+				{
+					Rectangle gRect = new Rectangle(g.Sprite.Position.X, g.Sprite.Position.Y, 80.0f, 10.0f);
+					Rectangle playerRect = new Rectangle(player.Sprite.Position.X, player.Sprite.Position.Y, 30.0f, 30.0f); 
 					
-					if(scoreCount >= 30)
+					if(Overlaps(gRect, playerRect) && gameScene.Children.Contains(g.Sprite))
 					{
-						playerCanShoot = true;
-						fireEnabled = true;
+						gameScene.RemoveChild(g.Sprite, true);
+						scoreFromGate = true;
+						
+						speedUpSP.Volume = 0.5f;
+						speedUpSP.Play();
+						playerSpeed *= 1.5f;
+						player.Speed = playerSpeed;
+						
+						score.Text = "Score: " + scoreCount;
+						spawnNewGate = true;
 					}
+				}
+				
+				//only increase score once per gate collision
+				if(scoreFromGate)
+				{
+					scoreFromGate = false;
+					scoreCount += 5;
+				}
+				
+				if(spawnNewGate)
+				{
+					spawnNewGate = false;
 					
-					score.Text = "Score: " + scoreCount;
-					spawnNewGate = true;
+					float randGatePosX = (float)random.Next(50, (int)(screenWidth * 0.8f));
+					float randGatePosY = (float)random.Next(50, (int)(screenHeight * 0.8f));
+					Gate newGate = new Gate();
+					newGate.Sprite.Position = new Vector2(randGatePosX, randGatePosY);
+							
+					gates.Add(newGate);
+					gameScene.AddChild(newGate.Sprite);
 				}
 			}
-			
-			if(spawnNewGate)
-			{
-				spawnNewGate = false;
-				
-				float randGatePosX = (float)random.Next(50, (int)(screenWidth * 0.8f));
-				float randGatePosY = (float)random.Next(50, (int)(screenHeight * 0.8f));
-				Gate newGate = new Gate();
-				newGate.Sprite.Position = new Vector2(randGatePosX, randGatePosY);
-						
-				gates.Add(newGate);
-				gameScene.AddChild(newGate.Sprite);
-			}
+			else
+			{		
+				uiScene.RootWidget.AddChildLast(gameOverScreen);
+				bgmp.Stop();
+				gameOverSP.Volume = 0.5f;
+				gameOverSP.Play();
+			}	
 		}
 
 		public static void Input()
@@ -457,7 +472,6 @@ namespace SkyDrivingTrain
 				projectiles.Add(p1);
 
 				gameScene.AddChild(p1.Sprite);			
-				
 			}
 		}
 		
@@ -483,7 +497,6 @@ namespace SkyDrivingTrain
 			}
 			
 		}
-		
 		
 		public static void CheckEnemyBoundaries(GreenEnemy enemy)
 		{
@@ -575,7 +588,23 @@ namespace SkyDrivingTrain
 			int randMin = 35;
 			int randXMax = (int)(screenWidth - 35.0f);
 			int randYMax = (int)(screenHeight - 35.0f);
-			
+			//check boundaries
+			if (enemy.Sprite.Position.X >= screenWidth)
+			{
+				enemy.Sprite.Position = new Vector2(screenWidth - 40.0f, enemy.Sprite.Position.Y);
+			}
+			else if (enemy.Sprite.Position.X <= 10)
+			{
+				enemy.Sprite.Position = new Vector2(10.0f, enemy.Sprite.Position.Y);
+			}
+			else if (enemy.Sprite.Position.Y <= 10)
+			{
+				enemy.Sprite.Position = new Vector2(enemy.Sprite.Position.X, 10.0f);
+			}
+			else if (enemy.Sprite.Position.Y >= screenHeight)
+			{
+				enemy.Sprite.Position = new Vector2(enemy.Sprite.Position.X, screenHeight - 40.0f);
+			}
 			//Basic four directional movement
 			if(enemy.Direction == Direction.Right)
 			{
@@ -662,29 +691,66 @@ namespace SkyDrivingTrain
 		
 		public static void RandomMove(BlueEnemy enemy)
 		{
+			blueMoveFrameCount++;
 			int direction = random.Next(1, 5);
 			
-			switch(direction)
+			if(blueMoveFrameCount >= 30)
 			{
-				case 1:
-				//move up
-				enemy.Sprite.Position = new Vector2(enemy.Sprite.Position.X, enemy.Sprite.Position.Y + enemy.Speed);
-				break;
-				
-				case 2:
-				//move down
-				enemy.Sprite.Position = new Vector2(enemy.Sprite.Position.X, enemy.Sprite.Position.Y - enemy.Speed);
-				break;
-				
-				case 3:
-				//move left
-				enemy.Sprite.Position = new Vector2(enemy.Sprite.Position.X - enemy.Speed, enemy.Sprite.Position.Y);
-				break;
-				
-				case 4:
-				//move right
-				enemy.Sprite.Position = new Vector2(enemy.Sprite.Position.X + enemy.Speed, enemy.Sprite.Position.Y);
-				break;
+				blueMoveFrameCount -= 30;
+				switch(direction)
+				{
+					case 1:
+					//move up
+					for(int i = 0; i < 5; i++)
+					{
+						enemy.Sprite.Position = new Vector2(enemy.Sprite.Position.X, enemy.Sprite.Position.Y + enemy.Speed * 2);
+						if(enemy.Sprite.Position.Y >= screenWidth)
+						{	
+							direction = 2;
+							break;
+						}
+					}
+					break;
+					
+					case 2:
+					//move down
+					for(int i = 0; i < 5; i++)
+					{
+						enemy.Sprite.Position = new Vector2(enemy.Sprite.Position.X, enemy.Sprite.Position.Y - enemy.Speed * 2);
+						if(enemy.Sprite.Position.Y <= 0)
+						{
+							direction = 1;
+							break;
+						}
+					}
+					break;
+					
+					case 3:
+					//move left
+					for(int i = 0; i < 5; i++)
+					{
+						enemy.Sprite.Position = new Vector2(enemy.Sprite.Position.X - enemy.Speed * 2, enemy.Sprite.Position.Y);
+						if(enemy.Sprite.Position.X <= 0)
+						{
+							direction = 4;
+							break;
+						}
+					}
+					break;
+					
+					case 4:
+					//move right
+					for(int i = 0; i < 5; i++)
+					{
+						enemy.Sprite.Position = new Vector2(enemy.Sprite.Position.X + enemy.Speed * 2, enemy.Sprite.Position.Y);
+						if(enemy.Sprite.Position.X >= screenWidth)
+						{
+							direction = 3;
+							break;
+						}
+					}
+					break;
+				}
 			}
 			
 		}
@@ -716,26 +782,6 @@ namespace SkyDrivingTrain
 			{
 				return true;
 			}
-		}
-		
-		
-		public static void GateExplosion(Sprite gate)
-		{
-			//define radius around the gate sprite passed in
-			
-			float gateRadius = 5.0f;
-			float gateCenterX = gate.Position.X;
-			float gateCenterY = gate.Position.Y;
-			
-			//check the position of every red enemy
-			foreach(RedEnemy r in redEnemies)
-			{
-				
-			}
-			//if a red enemy position is within the radius
-			
-			//remove that enemy
-			
 		}
 	}
 }

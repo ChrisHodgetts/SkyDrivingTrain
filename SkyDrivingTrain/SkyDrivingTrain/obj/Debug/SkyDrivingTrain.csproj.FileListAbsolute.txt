@@ -189,3 +189,80 @@ F:\Uni\Repos\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivin
 F:\Uni\Repos\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\assets\speedUp.wav
 F:\Uni\Repos\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\assets\gameOver.wav
 F:\Uni\Repos\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\assets\gameOver.wav
+F:\Users\Dan\Uni\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\assets\explosion.wav
+F:\Users\Dan\Uni\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\assets\missile_shot.wav
+F:\Users\Dan\Uni\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\assets\speedUp.wav
+F:\Users\Dan\Uni\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\assets\gameOver.wav
+F:\Users\Dan\Uni\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\assets\explosion.wav
+F:\Users\Dan\Uni\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\assets\missile_shot.wav
+F:\Users\Dan\Uni\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\assets\speedUp.wav
+F:\Users\Dan\Uni\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\assets\gameOver.wav
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\app.info
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\shaders\Simple.cgx
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\shaders\Sprite.cgx
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\app.exe
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\Sce.PlayStation.HighLevel.GameEngine2D.dll
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\System.Json.dll
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\System.Xml.dll
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\System.Runtime.Serialization.dll
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\System.Core.dll
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\System.ServiceModel.Web.dll
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\System.ServiceModel.dll
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\Sce.PlayStation.HighLevel.UI.dll
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\app.exe.mdb
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\assets\background.png
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\assets\blueEnemy.png
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\assets\greenEnemy.png
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\assets\redEnemy.png
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\assets\spikedShip.PNG
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\assets\gameMusic.mp3
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\assets\menu music.mp3
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\assets\enemy_B.png
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\assets\enemy_G.png
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\assets\enemy_R.png
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\assets\spikedShipSheet.png
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\assets\missileSheet.png
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\assets\placeHolderGate.png
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\assets\gate.png
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\assets\explosion.wav
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\assets\missile_shot.wav
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\assets\speedUp.wav
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-unsigned\Application\assets\gameOver.wav
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\app.info
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\shaders\Simple.cgx
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\shaders\Sprite.cgx
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\app.exe
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\Sce.PlayStation.HighLevel.GameEngine2D.dll
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\System.Json.dll
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\System.Xml.dll
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\System.Runtime.Serialization.dll
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\System.Core.dll
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\System.ServiceModel.Web.dll
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\System.ServiceModel.dll
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\Sce.PlayStation.HighLevel.UI.dll
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\app.exe.mdb
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\assets\background.png
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\assets\blueEnemy.png
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\assets\greenEnemy.png
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\assets\redEnemy.png
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\assets\spikedShip.PNG
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\assets\gameMusic.mp3
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\assets\menu music.mp3
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\assets\enemy_B.png
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\assets\enemy_G.png
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\assets\enemy_R.png
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\assets\spikedShipSheet.png
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\assets\missileSheet.png
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\assets\placeHolderGate.png
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\assets\gate.png
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\assets\explosion.wav
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\assets\missile_shot.wav
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\assets\speedUp.wav
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain-signed\Application\assets\gameOver.wav
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\bin\Debug\SkyDrivingTrain.psdp
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\obj\Debug\SkyDrivingTrain.csprojResolveAssemblyReference.cache
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\obj\Debug\shaders\shaders\Simple.cgx
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\obj\Debug\shaders\shaders\Sprite.cgx
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\obj\Debug\convertedpdb\app.exe.mdb
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\obj\Debug\app.exe
+G:\Uni year 2\TGP\SkyDrivingTrain\SkyDrivingTrain\SkyDrivingTrain\obj\Debug\app.pdb
