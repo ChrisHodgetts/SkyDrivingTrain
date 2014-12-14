@@ -17,6 +17,7 @@ namespace SkyDrivingTrain
 		private bool perimeterBroken;
 		private bool randomMove;
 		private bool follow;
+		private bool alive;
 		
 		
 		public BlueEnemy(int speed)
@@ -30,6 +31,7 @@ namespace SkyDrivingTrain
 			this.randomMove = true;
 			this.follow = false;
 			this.perimeterBroken = false;
+			this.alive = true;
 
 			
 			//scene.AddChild(sprite);
@@ -56,6 +58,12 @@ namespace SkyDrivingTrain
 		{
 			get{ return follow; }
 			set{ follow = value; }	
+		}
+		
+		public bool Alive
+		{
+			get{ return alive;}
+			set{ alive = value;}
 		}
 		
 		public bool PerimeterBroken

@@ -13,6 +13,7 @@ namespace SkyDrivingTrain
 		private SpriteUV sprite;
 		private TextureInfo texInfo;
 		private float speed;
+		private bool alive;
 		
 		public RedEnemy (float speed)
 		{
@@ -22,6 +23,7 @@ namespace SkyDrivingTrain
 			sprite.Position = AppMain.chooseRedSpawn();
 			//center = node.LocalToWorld(bounds.Center);
 			this.speed = speed;
+			this.alive = true;
 			
 			//scene.AddChild(sprite);
 		}
@@ -65,6 +67,12 @@ namespace SkyDrivingTrain
 		public SpriteUV Sprite
 		{
 			get{ return sprite; }
+		}
+		
+		public bool Alive
+		{
+			get{ return alive;}
+			set{ alive = value;}
 		}
 		
 		public float Speed

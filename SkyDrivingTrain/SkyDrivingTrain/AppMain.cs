@@ -123,11 +123,11 @@ namespace SkyDrivingTrain
 			score.Text = "Score: " + scoreCount;
 			
 			gameOverScreen = new Sce.PlayStation.HighLevel.UI.Label();
-			gameOverScreen.X = 400;
+			gameOverScreen.X = 300;
 			gameOverScreen.Y = 250;
-			gameOverScreen.Width = 200;
+			gameOverScreen.Width = 450;
 			gameOverScreen.TextColor = (UIColor)Colors.Magenta;
-			gameOverScreen.Text = "GAME OVER";
+			gameOverScreen.Text = "GAME OVER, press Select for New Game";
 			
 			instructions = new Sce.PlayStation.HighLevel.UI.Label();
 			instructions.X = 525;
@@ -194,6 +194,7 @@ namespace SkyDrivingTrain
 			//initialise background music
 			Bgm bgm = new Bgm("/Application/assets/gameMusic.mp3");
 			bgmp = bgm.CreatePlayer();
+			bgmp.Volume = 0.1f;
 			bgmp.Loop = true;
 			bgmp.Play();
 			
@@ -236,17 +237,72 @@ namespace SkyDrivingTrain
 			Director.Instance.RunWithScene(gameScene, true);
 		}
 		
+		
+		public static void NewGame()
+		{
+			//reset game
+			
+			gameOver = false;
+			
+			random = new Random();
+			
+			uiScene.RootWidget.RemoveChild(gameOverScreen);
+			
+			scoreCount = 0;
+			blueMoveFrameCount = 0;
+			redSpeed = 3.0f;
+			
+			redTimeCount = 0;
+			
+			playerSpeedTimeCount = 0;
+			
+			fireEnabled = false;
+			scoreFromGate = false;
+			spawnNewGate = false;
+			playerCanShoot = false;
+			
+			player.Sprite.Position = new Vector2(AppMain.screenWidth * 0.5f, AppMain.screenHeight * 0.5f);
+			player.Direction = Direction.Up;
+			playerAlive = true;
+			playerSpeed = 5.0f;
+			
+			gameScene.AddChild(player.Sprite);
+			
+			blueEnemy.Sprite.Position = new Vector2(200.0f, 400.0f);
+			blueEnemy.RandomMove = true;
+			blueEnemy.Follow = false;
+			blueEnemy.PerimeterBroken = false;
+			blueEnemy.Alive = true;
+			
+			greenEnemy.Sprite.Position = new Vector2(500.0f, 50.0f);
+			greenEnemy.Direction = Direction.Right;
+			greenEnemy.WallCollisionCount = 0;
+			greenEnemy.Alive = true;
+			
+			foreach(RedEnemy r in redEnemies)
+			{
+				r.Alive = false;
+				r.Sprite.Position = new Vector2(screenWidth + 204, r.Sprite.Position.Y);
+			}
+			
+			bgmp.Play();
+			//REPOSITION ENEMIES HERE
+		}
+	
 		public static void Update()
 		{				
+			Input();
+
 			if(!gameOver)
 			{
 				CheckPlayerBoundaries();
-				CheckEnemyBoundaries(greenEnemy);
-				Input();
 				
 				foreach(RedEnemy r in redEnemies)
 				{
-					ChasePlayer(r.Sprite, r.Speed, player.Sprite);
+					if(r.Alive)
+					{
+						ChasePlayer(r.Sprite, r.Speed, player.Sprite);
+					}
 				}
 				
 				redTimeCount++;
@@ -285,14 +341,22 @@ namespace SkyDrivingTrain
 					uiScene.RootWidget.RemoveChild(instructions);
 					uiScene.RootWidget.AddChildLast(instructions2);
 				}
+				else if(!fireEnabled)
+				{
+					uiScene.RootWidget.AddChildLast(instructions);
+					uiScene.RootWidget.RemoveChild(instructions2);
+				}
 				
 				//Movement of green enemy
-				RandomMoveAlternateAxis(greenEnemy);
-				
+				if(greenEnemy.Alive)
+				{
+					CheckEnemyBoundaries(greenEnemy);
+					RandomMoveAlternateAxis(greenEnemy);
+				}
 				//movement of blue enemy
 				BluePerimCheck(blueEnemy, player.Sprite);
 				
-				if(blueEnemy.RandomMove)
+				if(blueEnemy.RandomMove && blueEnemy.Alive)
 				{
 					//Movement for blue enemies before perimeter has been breached
 					RandomMove(blueEnemy);
@@ -300,23 +364,30 @@ namespace SkyDrivingTrain
 				
 				if(blueEnemy.PerimeterBroken)
 				{
-					ChasePlayer(blueEnemy.Sprite, blueEnemy.Speed, player.Sprite);
+					blueEnemy.RandomMove = false;
+					if(blueEnemy.Alive)
+					{
+						ChasePlayer(blueEnemy.Sprite, blueEnemy.Speed, player.Sprite);
+					}
 				}
 				
 				player.Update();
 				
 				foreach(Projectile p in projectiles)
 				{
+					p.Update();
+					
 					if(p.Live)
 					{
-						p.Update();
-						missileSP.Volume = 0.5f;
-						missileSP.Play();
 						//projectile->blue enemy collisions
 						if(p.CollidedWith(blueEnemy.Sprite))
 						{
 							gameScene.RemoveChild(p.Sprite, true);
+							p.Live = false;
 							gameScene.RemoveChild(blueEnemy.Sprite, true);
+							blueEnemy.Alive = false;
+							blueEnemy.Sprite.Position = new Vector2(screenWidth + 204, blueEnemy.Sprite.Position.Y);
+							
 							
 							explosionSP.Volume = 0.5f;
 							explosionSP.Play();
@@ -325,8 +396,11 @@ namespace SkyDrivingTrain
 						//projectile->green enemy collisions
 						if(p.CollidedWith(greenEnemy.Sprite))
 						{
-							gameScene.RemoveChild(p.Sprite, true);
+							gameScene.RemoveChild(p.Sprite, true);	
+							p.Live = false;
+
 							gameScene.RemoveChild(greenEnemy.Sprite, true);
+							//greenEnemy.Sprite.Position = new Vector2(screenWidth + 204, greenEnemy.Sprite.Position.Y);
 							explosionSP.Volume = 0.5f;
 							explosionSP.Play();
 						}
@@ -336,7 +410,10 @@ namespace SkyDrivingTrain
 							if(p.CollidedWith(red.Sprite))
 							{
 								gameScene.RemoveChild(p.Sprite, true);
+								p.Live = false;
 								gameScene.RemoveChild(red.Sprite, true);
+								red.Alive = false;
+								red.Sprite.Position = new Vector2(screenWidth + 204, red.Sprite.Position.Y);
 								explosionSP.Volume = 0.5f;
 								explosionSP.Play();
 							}
@@ -352,8 +429,13 @@ namespace SkyDrivingTrain
 				
 				if(scoreCount >= 30)
 				{
-							playerCanShoot = true;
-							fireEnabled = true;
+					playerCanShoot = true;
+					fireEnabled = true;
+				}
+				else if(scoreCount <= 30)
+				{
+					playerCanShoot = false;
+					fireEnabled = false;
 				}
 				
 				//player - enemy collisions
@@ -365,6 +447,9 @@ namespace SkyDrivingTrain
 						playerAlive = false;
 						gameScene.RemoveChild(player.Sprite, true);
 						gameOver = true;
+						bgmp.Stop();
+					gameOverSP.Volume = 0.5f;
+					gameOverSP.Play();
 						
 					}
 				}
@@ -374,6 +459,9 @@ namespace SkyDrivingTrain
 					playerAlive = false;
 					gameScene.RemoveChild(player.Sprite, true);
 					gameOver = true;
+					bgmp.Stop();
+					gameOverSP.Volume = 0.5f;
+					gameOverSP.Play();
 				}
 					
 				
@@ -381,7 +469,10 @@ namespace SkyDrivingTrain
 				{
 					playerAlive = false;
 					gameScene.RemoveChild(player.Sprite, true);
-					gameOver = true;				
+					gameOver = true;
+					bgmp.Stop();
+					gameOverSP.Volume = 0.5f;
+					gameOverSP.Play();
 				}
 				
 				//player - gate collisions
@@ -427,10 +518,8 @@ namespace SkyDrivingTrain
 			}
 			else
 			{		
+				
 				uiScene.RootWidget.AddChildLast(gameOverScreen);
-				bgmp.Stop();
-				gameOverSP.Volume = 0.5f;
-				gameOverSP.Play();
 			}	
 		}
 
@@ -438,40 +527,55 @@ namespace SkyDrivingTrain
 		{
 			var gamePadData = GamePad.GetData(0);
 			
-			//Player Controls
-			//Move left
-			if((gamePadData.Buttons & GamePadButtons.Left) != 0)
+			if(!gameOver)
 			{
-				player.Sprite.Position = new Vector2(player.Sprite.Position.X - player.Speed, player.Sprite.Position.Y);
-				player.Direction = Direction.Left;	
-			}			
-			//Move Right
-			else if((gamePadData.Buttons & GamePadButtons.Right) != 0)
-			{
-				player.Sprite.Position = new Vector2(player.Sprite.Position.X + player.Speed, player.Sprite.Position.Y);
-				player.Direction = Direction.Right;
-
+				//Player Controls
+				//Move left
+				if((gamePadData.Buttons & GamePadButtons.Left) != 0)
+				{
+					player.Sprite.Position = new Vector2(player.Sprite.Position.X - player.Speed, player.Sprite.Position.Y);
+					player.Direction = Direction.Left;	
+				}			
+				//Move Right
+				else if((gamePadData.Buttons & GamePadButtons.Right) != 0)
+				{
+					player.Sprite.Position = new Vector2(player.Sprite.Position.X + player.Speed, player.Sprite.Position.Y);
+					player.Direction = Direction.Right;
+	
+				}
+				//Move Up
+				else if((gamePadData.Buttons & GamePadButtons.Up) != 0)
+				{
+					player.Sprite.Position = new Vector2(player.Sprite.Position.X, player.Sprite.Position.Y + player.Speed);
+					player.Direction = Direction.Up;
+				}
+				//Move Down
+				else if((gamePadData.Buttons & GamePadButtons.Down) != 0)
+				{
+					player.Sprite.Position = new Vector2(player.Sprite.Position.X, player.Sprite.Position.Y - player.Speed);
+					player.Direction = Direction.Down;
+				}
+				
+				if(((gamePadData.ButtonsUp & GamePadButtons.Start) != 0) && playerCanShoot)
+				{
+					//NOTE START IS X ON KEYBOARD
+					Projectile p1 = new Projectile(player.Sprite.Position, 10, player.Direction);
+					scoreCount -= 25;
+					p1.Live = true;
+					projectiles.Add(p1);
+	
+					gameScene.AddChild(p1.Sprite);
+					missileSP.Volume = 0.5f;
+					missileSP.Play();
+				}
 			}
-			//Move Up
-			else if((gamePadData.Buttons & GamePadButtons.Up) != 0)
+			else
 			{
-				player.Sprite.Position = new Vector2(player.Sprite.Position.X, player.Sprite.Position.Y + player.Speed);
-				player.Direction = Direction.Up;
-			}
-			//Move Down
-			else if((gamePadData.Buttons & GamePadButtons.Down) != 0)
-			{
-				player.Sprite.Position = new Vector2(player.Sprite.Position.X, player.Sprite.Position.Y - player.Speed);
-				player.Direction = Direction.Down;
-			}
-			
-			if(((gamePadData.ButtonsUp & GamePadButtons.Start) != 0) && playerCanShoot)
-			{
-				Projectile p1 = new Projectile(player.Sprite.Position, 10, player.Direction);
-				p1.Live = true;
-				projectiles.Add(p1);
-
-				gameScene.AddChild(p1.Sprite);			
+				if((gamePadData.Buttons & GamePadButtons.Select) != 0)
+				{
+					//NOTE SELECT IS Z ON KEYBOARD
+					NewGame();
+				}
 			}
 		}
 		
@@ -495,7 +599,6 @@ namespace SkyDrivingTrain
 			{
 				player.Sprite.Position = new Vector2(player.Sprite.Position.X, screenHeight - 40.0f);
 			}
-			
 		}
 		
 		public static void CheckEnemyBoundaries(GreenEnemy enemy)

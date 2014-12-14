@@ -128,10 +128,10 @@ namespace SkyDrivingTrain
 			}
 			
 			
-			if(this.position.X > AppMain.screenWidth || this.position.X < 0 || this.position.Y > AppMain.screenHeight || this.position.Y < 0)
+			/*if(this.position.X > AppMain.screenWidth || this.position.X < 0 || this.position.Y > AppMain.screenHeight || this.position.Y < 0)
 			{
 				this.Cleanup();
-			}
+			}*/
 			
 		}
 		

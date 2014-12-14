@@ -16,7 +16,8 @@ namespace SkyDrivingTrain
 		private int wallCollisionCount;
 		private AppMain.Direction direction;
 		
-
+		private bool alive;
+		
 		public GreenEnemy (int speed)
 		{
 			texInfo = new TextureInfo("/Application/assets/enemy_G.png");
@@ -27,13 +28,19 @@ namespace SkyDrivingTrain
 			this.speed = speed;
 			this.direction = AppMain.Direction.Right;
 			this.wallCollisionCount = 0;
-			
+			this.alive = true;
 			//scene.AddChild(sprite);
 		}
 		
 		public SpriteUV Sprite
 		{
 			get{ return sprite; }
+		}
+		
+		public bool Alive
+		{
+			get{ return alive;}
+			set{ alive = value;}
 		}
 		
 		public int Speed
